@@ -1,11 +1,9 @@
-const BASE_URL = 'https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0';
-
+const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 let allPokemon = [];
 let offset = 0;
 let limit = 26;
 let currentIndex = 1;
-
 
 const typeColors = {
     grass: "#78C850",
@@ -29,45 +27,22 @@ const typeColors = {
 };
 
 
-init();
-
-
-function init() {
-    fetchAllPokemonData();
-    // fetchSinglePokemonData();
-    // displayDataPokemon();
-    // renderLittlePokemonCard();
+async function init() {
+    // showLoadingSpinner();
+    await fetchAllPokemonData();
+    // hideLoadingSpinner();
 }
-
-
-// async function fetchDataPokemon() {
-//     try {
-//         let response = await fetch(BASE_URL);
-//         let responseAsJson = await response.json();
-//         console.log(responseAsJson);
-//         displayDataPokemon(responseAsJson);
-//     } catch (error) {
-//         console.error('Pokemon konnten nicht geladen werden', error);
-//     }
-// }
-
-// function displayDataPokemon(responseAsJson) {
-//     let jsonDataDiv = document.getElementById('content');
-//     jsonDataDiv.innerHTML = '';
-//     for (let index = 0; index < responseAsJson.length; index++) {
-//         const pokemon = responseAsJson[index];
-//         jsonDataDiv.innerHTML += `<div>${pokemon}</div>`;
-//     }
-// }
 
 
 async function fetchAllPokemonData() {
     try {
-        let response = await fetch(BASE_URL);
-        let allPokemonData = await response.json();
-        console.log(allPokemonData);
-        allPokemon.push(allPokemonData);
-        console.log(allPokemon);
+        let response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
+        let responseAsJson = await response.json();
+        let allPokemonData = responseAsJson.results;
+        for (let i = 0; i < allPokemonData.length; i++) {
+            const singlePokemonData = await fetchSinglePokemonData(allPokemonData[i].url);
+            allPokemon.push(singlePokemonData);
+        }
         renderLittlePokemonCard();
     } catch (error) {
         console.error('Pokemon konnten nicht geladen werden', error);
@@ -75,28 +50,15 @@ async function fetchAllPokemonData() {
 }
 
 
-// async function fetchSinglePokemonData(i) {
-//     try {
-//         let response = await fetch(`BASE_URL${i}`);
-//         let singlePokemon = await response.text();
-//         console.log(singlePokemon);
-//         let pokeName = singlePokemon.name;
-//         console.log(pokeName);
-//     } catch (error) {
-//         console.error('Name konnten nicht geladen werden', error);
-//     }
-// }
-
-
-
-// function displayDataPokemon(allPokemon) {
-//     let jsonDataDiv = document.getElementById('content');
-//     for (let index = 0; index < allPokemon.length; index++) {
-//         const pokemon = allPokemon[index];
-//         jsonDataDiv.innerHTML = `<div>${pokemon}</div>`;
-//     }
-    
-// }
+async function fetchSinglePokemonData(pokemonUrl) {
+    try {
+        let response = await fetch(pokemonUrl);
+        let pokemonDetails = await response.json();
+        return pokemonDetails;
+    } catch (error) {
+        console.error('Einzeldaten konnten nicht geladen werden', error);
+    }
+}
 
 
 function renderLittlePokemonCard() {
@@ -104,7 +66,7 @@ function renderLittlePokemonCard() {
     content.innerHTML = '';
     for (let i = 0; i < allPokemon.length; i++) {
         const pokemonCard = allPokemon[i];
-        content.innerHTML += generateLittlePokemonCardContainer(i);
+        content.innerHTML += generateLittlePokemonCardContainer(pokemonCard);
         // renderLittlePokemonStats(i);
     }
 }
