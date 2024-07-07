@@ -26,22 +26,49 @@ let currentIndex = 1;
 
 init();
 
-function init() {
-    fetchDataPokemon();
+async function init() {
+    await fetchDataPokemon();
+    displayDataPokemon();
 }
+
+// async function fetchDataPokemon() {
+//     try {
+//         let response = await fetch(BASE_URL);
+//         let responseAsJson = await response.json();
+//         console.log(responseAsJson);
+//         displayDataPokemon(responseAsJson);
+//     } catch (error) {
+//         console.error('Pokemon konnten nicht geladen werden', error);
+//     }
+// }
+
+// function displayDataPokemon(responseAsJson) {
+//     let jsonDataDiv = document.getElementById('content');
+//     jsonDataDiv.innerHTML = '';
+//     for (let index = 0; index < responseAsJson.length; index++) {
+//         const pokemon = responseAsJson[index];
+//         jsonDataDiv.innerHTML += `<div>${pokemon}</div>`;
+//     }
+// }
+
 
 async function fetchDataPokemon() {
     try {
         let response = await fetch(BASE_URL);
-        let responseAsJson = await response.json();
-        displayDataPokemon(responseAsJson);
+        let allPokemon = await response.json();
+        console.log(allPokemon);
+        let pokeName = allPokemon.results;
+        console.log(pokeName);
     } catch (error) {
         console.error('Pokemon konnten nicht geladen werden', error);
     }
 }
 
-function displayDataPokemon(responseAsJson) {
+function displayDataPokemon(allPokemon) {
     let jsonDataDiv = document.getElementById('content');
-    jsonDataDiv.innerHTML = `<pre>${JSON.stringify(responseAsJson, null, 2)}</pre>`;
+    for (let index = 0; index < allPokemon.length; index++) {
+        const pokemon = allPokemon[index];
+        jsonDataDiv.innerHTML = `<div>${pokemon}</div>`;
+    }
+    
 }
-
