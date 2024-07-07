@@ -10,3 +10,11 @@ body {
 .logo {
     width: 50px;
 }
+
+.pokemon-card-container {
+    background-color: coral;
+    height: 250px;
+    width: 300px;
+    border-radius: 12px;
+    padding: 16px;
+}
