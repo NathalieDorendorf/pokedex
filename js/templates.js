@@ -1,3 +1,12 @@
+function generateLoadingSpinner() {
+    return `
+        <div class="pokeball-container">
+            <div class="pokeball"></div>
+        </div>
+    `;
+}
+
+
 function generateLittlePokemonCardContainer(pokemon) {
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
     return `
@@ -15,3 +24,5 @@ function generateLittlePokemonCardContainer(pokemon) {
         </div>
     `;
 }
+
+

@@ -28,7 +28,7 @@ const typeColors = {
 
 
 async function init() {
-    // showLoadingSpinner();
+    showLoadingSpinner();
     await fetchAllPokemonData();
     // hideLoadingSpinner();
 }
@@ -58,6 +58,13 @@ async function fetchSinglePokemonData(pokemonUrl) {
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
     }
+}
+
+
+function showLoadingSpinner() {
+    let content = document.getElementById('content');
+    content.innerHTML = '';
+    content.innerHTML += generateLoadingSpinner(); 
 }
 
 
