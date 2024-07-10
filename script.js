@@ -3,7 +3,7 @@ const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 let allPokemon = [];
 let offset = 0;
 let limit = 26;
-let currentIndex = 1;
+// let currentIndex = 1;
 
 const typeColors = {
     grass: "#78C850",
@@ -76,6 +76,16 @@ function renderLittlePokemonCard() {
         content.innerHTML += generateLittlePokemonCardContainer(pokemonCard);
         // renderLittlePokemonStats(i);
     }
+}
+
+
+function searchPokemon() {
+    let search = document.getElementById('search').value;
+    search = search.toLowerCase();
+    console.log(search);
+    let filteredPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
+    console.log(filteredPokemon);
+    renderLittlePokemonCard(filteredPokemon);
 }
 
 

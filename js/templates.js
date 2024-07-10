@@ -12,7 +12,7 @@ function generateLittlePokemonCardContainer(pokemon) {
     return `
         <div class="pokemon-card-container">
             <div class="d-flex-sb-c">
-                <h2>${pokemon.name}</h2>
+                <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
                 <p>#${pokemon.id}</p>
             </div>
             <div class="d-flex-sb-c">
