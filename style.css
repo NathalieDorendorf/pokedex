@@ -2,10 +2,18 @@ body {
     background-color: whitesmoke;
 }
 
+header {
+    height: 200px;
+}
+
 main {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+}
+
+footer {
+    height: 100px;
 }
 
 .content {
