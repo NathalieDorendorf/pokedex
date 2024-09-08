@@ -7,24 +7,24 @@ let limit = 25;
 // let currentIndex = 1;
 
 const typeColors = {
-    grass: "#78C850",
-    fire: "#F08030",
-    water: "#6890F0",
-    bug: "#A8B820",
-    normal: "#A8A878",
-    poison: "#A040A0",
-    electric: "#F8D030",
-    ground: "#E0C068",
-    fairy: "#EE99AC",
-    fighting: "#C03028",
-    psychic: "#F85888",
-    rock: "#B8A038",
-    ghost: "#705898",
-    ice: "#98D8D8",
-    dragon: "#7038F8",
-    dark: "#705848",
-    steel: "#B8B8D0",
-    flying: "#A890F0"
+    grass: "#74cb48",
+    fire: "#f57d31",
+    water: "#6493eb",
+    bug: "#a7b723",
+    normal: "#aaa67f",
+    poison: "#a43e9e",
+    electric: "#f9cf30",
+    ground: "#dec16b",
+    fairy: "#e69eac",
+    fighting: "#c12239",
+    psychic: "#fb5584",
+    rock: "#b69e31",
+    ghost: "#70559b",
+    ice: "#9ad6df",
+    dragon: "#7037ff",
+    dark: "#75574c",
+    steel: "#b7b9d0",
+    flying: "#a891ec"
 };
 
 

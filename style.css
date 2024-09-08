@@ -1,5 +1,37 @@
+:root {
+    /* Identity */
+    --bg-primary: #dc0a2d;
+
+    /* Pokemon Type */
+    --bg-bug: #a7b723;
+    --bg-dark: #75574c;  /* Unlicht */
+    --bg-dragon: #7037ff;
+    --bg-electric: #f9cf30;
+    --bg-fairy: #e69eac;
+    --bg-fighting: #c12239;
+    --bg-fire: #f57d31;
+    --bg-flying: #a891ec;
+    --bg-ghost: #70559b;
+    --bg-normal: #aaa67f;
+    --bg-grass: #74cb48;
+    --bg-ground: #dec16b;
+    --bg-ice: #9ad6df;
+    --bg-poison: #a43e9e;
+    --bg-psychic: #fb5584;
+    --bg-rock: #b69e31;
+    --bg-steel: #b7b9d0;
+    --bg-water: #6493eb;
+
+    /* Greyscale */
+    --dark: #212121;
+    --medium: #666666;
+    --light: #e0e0e0;
+    --background: #efefef;
+    --white: #ffffff;
+}
+
 body {
-    background-color: whitesmoke;
+    background-color: #dc0a2d;
 }
 
 header {
@@ -13,6 +45,7 @@ main {
     justify-content: center;
     flex-wrap: wrap;
     gap: 16px;
+    background-color: ;
 }
 
 footer {
@@ -23,14 +56,14 @@ footer {
 button {
     height: 30px;
     width: 200px;
-    background-color: red;
-    color: white;
+    background-color: whitesmoke;
+    color: black;
     border: 1px solid white;
     border-radius: 12px;
 }
 
 button:hover {
-    background: rgb(210, 0, 0);
+    background: lightgray;
     cursor: pointer;
 }
 
@@ -86,3 +119,5 @@ input {
 @media (max-width: 768px) and (min-width: 601px) {
     
 }
+
+
