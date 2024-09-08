@@ -87,7 +87,7 @@ a {
 
 @media (max-width:480px) {
     .section-pad {
-        padding: 16px 32px;
+        padding: 16px;
     }
 
     .section-gap {

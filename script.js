@@ -1,8 +1,9 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 let allPokemon = [];
+let currentPokemon = [];
 let offset = 0;
-let limit = 26;
+let limit = 25;
 // let currentIndex = 1;
 
 const typeColors = {
@@ -79,13 +80,25 @@ function renderLittlePokemonCard() {
 }
 
 
+function renderFilteredLittlePokemonCard() {
+    let content = document.getElementById('content');
+    content.innerHTML = '';
+    for (let i = 0; i < currentPokemon.length; i++) {
+        const filteredPokemonCard = currentPokemon[i];
+        content.innerHTML += generateLittlePokemonCardContainer(filteredPokemonCard);
+    }
+}
+
+
 function searchPokemon() {
     let search = document.getElementById('search').value;
     search = search.toLowerCase();
     console.log(search);
     let filteredPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     console.log(filteredPokemon);
-    renderLittlePokemonCard(filteredPokemon);
+    currentPokemon.push(filteredPokemon);
+    console.log(currentPokemon);
+    renderFilteredLittlePokemonCard();
 }
 
 
