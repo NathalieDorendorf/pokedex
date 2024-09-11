@@ -79,7 +79,7 @@ input {
     width: 75px;
 }
 
-.pokemon-card-container {
+.little-pokemon-card {
     height: clamp(100px, 100%, 600px);
     width: clamp(100px, 100%, 600px);
     border-radius: 12px;
@@ -93,7 +93,7 @@ input {
         100px 100px 80px rgba(0, 0, 0, 0.07);
 }
 
-.pokemon-card-container:hover {
+.little-pokemon-card:hover {
     cursor: pointer;
     transform: scale(1.1);
     transition-duration: 1s;

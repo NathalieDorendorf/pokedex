@@ -12,7 +12,7 @@ function generateLittlePokemonCardContainer(pokemon) {
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
     return `
-        <div class="pokemon-card-container" style="background-color: ${backgroundColor};">
+        <div onclick="openBigPokemonCard(${i})" id="littlePokemonCard${i}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <div class="d-flex-sb-c">
                 <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
                 <p>#${pokemon.id}</p>
@@ -23,6 +23,9 @@ function generateLittlePokemonCardContainer(pokemon) {
                 </div>
                 <img class="" src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
             </div>
+        </div>
+        <div id="bigPokemonCardOverlay" class="big-pokemon-card-overlay d-none">
+
         </div>
     `;
 }
