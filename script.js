@@ -102,25 +102,22 @@ function searchPokemon() {
 }
 
 
-function openBigPokemonCard(i) {
-    let overlay = document.getElementById('bigPokemonCardOverlay');
-    overlay.classList.remove('d-none');
-    overlay.innerHTML = `
-        <div class="">
-            div class="d-flex-sb-c">
-                <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-                <p>#${pokemon.id}</p>
-            </div>
-            <div class="d-flex-sb-c">
-                <div>
-                    <div>${types}</div>
-                </div>
-                <img class="" src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-            </div>
-        </div>
-    `;
+function toggleOverlay() {
+    let overlay = document.getElementById('overlay');
+    overlay.classList.toggle('d-none');
+    overlay.innerHTML = generateBigPokemonCardContainer();
 }
 
+
+function renderBigPokemonCard() {
+    let content = document.getElementById('overlay');
+    content.innerHTML = '';
+    for (let i = 0; i < allPokemon.length; i++) {
+        const pokemonCard = allPokemon[i];
+        content.innerHTML += generateBigPokemonCardContainer(pokemonCard);
+        // renderLittlePokemonStats(i);
+    }
+}
 
 
 // function renderLittlePokemonStats(i) {
