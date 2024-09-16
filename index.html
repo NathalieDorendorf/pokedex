@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="./img/pokeball.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/pokeball.png">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./fonts/fonts.css">
     <link rel="stylesheet" href="./css/standard.css">
@@ -22,7 +22,7 @@
         </div> -->
         <header class="section-pad">
             <div class="d-flex-sb-c">
-                <img class="logo" src="./img/pokeball.png" alt="">
+                <img class="logo" src="./assets/img/pokeball.png" alt="logo pokeball">
                 <h1>Pokedex</h1>
                 <input type="search" placeholder="search Pokemon..." id="search" oninput="searchPokemon()">
             </div>
@@ -36,13 +36,13 @@
         <main id="content" class="section-pad">
 
         </main>
-        <div id="overlay" class="overlay-container d-none" onclick="toggleOverlay()">
+        <div id="overlay" class="overlay-container d-none" onclick="closeOverlay()">
         
         </div>
         <section class="d-flex-c-c section-pad">
             <button id="button" onclick="loadMorePokemon()">more Pokemon</button>
         </section>
-        <footer class="section-pad">
+        <footer class="section-pad d-flex-c-c">
             <p>Copyright by Nathalie Dorendorf 2024</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0">Licensed under the Apache License, Version 2.0</a>
         </footer>

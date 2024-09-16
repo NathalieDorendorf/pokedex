@@ -102,22 +102,18 @@ function searchPokemon() {
 }
 
 
-function toggleOverlay() {
+function openOverlay() {
     let overlay = document.getElementById('overlay');
-    overlay.classList.toggle('d-none');
+    overlay.classList.remove('d-none');
     overlay.innerHTML = generateBigPokemonCardContainer();
 }
 
 
-function renderBigPokemonCard() {
-    let content = document.getElementById('overlay');
-    content.innerHTML = '';
-    for (let i = 0; i < allPokemon.length; i++) {
-        const pokemonCard = allPokemon[i];
-        content.innerHTML += generateBigPokemonCardContainer(pokemonCard);
-        // renderLittlePokemonStats(i);
-    }
+function closeOverlay() {
+    let overlay = document.getElementById('overlay');
+    overlay.classList.add('d-none');
 }
+
 
 
 // function renderLittlePokemonStats(i) {
