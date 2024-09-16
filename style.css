@@ -70,12 +70,17 @@ button:hover {
 }
 
 input {
-    height: 30px;
+    height: 36px;
     width: 200px;
-    padding: 8px;
-    border-radius: 12px;
+    padding: 8px 40px;
+    border-radius: 20px;
     border: none;
     box-shadow: inset 0 1px 4px 0 var(--dark);
+    background-color: var(--white);
+    background-image: url("./assets/icons/search.png");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 12px 8px;
 }
 
 .logo {
