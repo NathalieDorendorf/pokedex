@@ -1,9 +1,11 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
+const TYPE_URL = 'https://pokeapi.co/api/v2/type';
 
 let allPokemon = [];
 let currentPokemon = [];
 let offset = 0;
 let limit = 25;
+let type = 1;
 // let currentIndex = 1;
 
 const typeColors = {
@@ -58,6 +60,19 @@ async function fetchSinglePokemonData(pokemonUrl) {
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
+    }
+}
+
+
+async function fetchPokemonType() {
+    try {
+        let response = await fetch(TYPE_URL);
+        let responseAsJson = await response.json();
+        let allTypes = responseAsJson.results;
+        console.log('Pokemon Types: ', allTypes);
+        return allTypes;
+    } catch (error) {
+        console.error('Typen konnten nicht geladen werden', error);
     }
 }
 

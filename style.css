@@ -107,6 +107,11 @@ input {
     transition-duration: 1s;
 }
 
+.image-pokemon {
+    height: 200px;
+    width: 200px;
+}
+
 .overlay-container {
     background: var(--background);
     position: absolute;

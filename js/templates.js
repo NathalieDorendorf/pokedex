@@ -1,5 +1,5 @@
 function generateLoadingSpinner() {
-    return `
+    return /*html*/`
         <div class="pokeball-container">
             <div class="pokeball"></div>
         </div>
@@ -11,7 +11,7 @@ function generateLittlePokemonCardContainer(pokemon, i) {
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
-    return `
+    return /*html*/`
         <div onclick="openOverlay(${i})" id="littlePokemonCard${i}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <div class="d-flex-sb-c">
                 <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
@@ -21,7 +21,7 @@ function generateLittlePokemonCardContainer(pokemon, i) {
                 <div>
                     <div>${types}</div>
                 </div>
-                <img class="" src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+                <img class="image-pokemon" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">  
             </div>
         </div>
     `;
@@ -29,7 +29,7 @@ function generateLittlePokemonCardContainer(pokemon, i) {
 
 
 function generateBigPokemonCardContainer(i) {
-    return `
+    return /*html*/`
         <div class="big-pokemon-card">
             <div class="d-flex-sb-c section-pad">
                 <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${i})" src="./assets/icons/arrow_back.png" alt="back">
