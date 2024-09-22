@@ -6,7 +6,6 @@ let currentPokemon = [];
 let offset = 0;
 let limit = 25;
 let type = 1;
-// let currentIndex = 1;
 
 const typeColors = {
     grass: "#74cb48",
@@ -33,7 +32,6 @@ const typeColors = {
 async function init() {
     showLoadingSpinner();
     await fetchAllPokemonData();
-    // hideLoadingSpinner();
 }
 
 
@@ -90,7 +88,6 @@ function renderLittlePokemonCard() {
     for (let i = 0; i < allPokemon.length; i++) {
         const pokemonCard = allPokemon[i];
         content.innerHTML += generateLittlePokemonCardContainer(pokemonCard);
-        // renderLittlePokemonStats(i);
     }
 }
 
@@ -109,18 +106,22 @@ function searchPokemon() {
     let search = document.getElementById('search').value;
     search = search.toLowerCase();
     console.log(search);
-    let filteredPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
-    console.log(filteredPokemon);
-    currentPokemon.push(filteredPokemon);
+    currentPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     console.log(currentPokemon);
     renderFilteredLittlePokemonCard();
+}
+
+
+async function loadMorePokemon() {
+    offset += limit;
+    await fetchAllPokemonData();
 }
 
 
 function openOverlay() {
     let overlay = document.getElementById('overlay');
     overlay.classList.remove('d-none');
-    overlay.innerHTML = generateBigPokemonCardContainer();
+    overlay.innerHTML = generateBigPokemonCardContainer(i);
 }
 
 
@@ -129,15 +130,5 @@ function closeOverlay() {
     overlay.classList.add('d-none');
 }
 
-
-
-// function renderLittlePokemonStats(i) {
-//     let statsContent = document.getElementById(`stats${i}`);
-//     statsContent.innerHTML = '';
-//     for (let j = 0; j < allPokemonData[i].stats.length; j++) {
-//         const pokemonStats = allPokemonData[i].stats[j];
-//         statsContent.innerHTML += generatePokemonStatsContainer(i,j);
-//     }
-// }
 
 
