@@ -12,7 +12,7 @@ function generateLittlePokemonCardContainer(pokemon, i) {
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
     return /*html*/`
-        <div onclick="openOverlay(${i})" id="littlePokemonCard${i}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
+        <div onclick="openOverlay(${pokemon.id})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <img class="bg-pokeball" src="./assets/icons/pokedex.svg" alt="">
             <div class="d-flex-sb-c">
                 <h2 class="z-index">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
@@ -35,21 +35,24 @@ function generateBigPokemonCardContainer(i) {
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     return /*html*/`
         <div class="big-pokemon-card" style="background-color: ${backgroundColor};">
-            <div class="d-flex-sb-c section-pad">
-                <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${i})" src="./assets/icons/back-to-home.svg" alt="back">
-                <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-                <p>#${pokemon.id}</p>
-            </div>
-            <div>
-                <img id="arrowLeft" class="arrow" onclick="previousPokemon${i}" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
-                <img id="pokemon${i}" class="logo" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
-                <img id="arrowRight" class="arrow" onclick="nextPokemon${i}" src="./assets/icons/chevron_right.svg" alt="next pokemon">
-            </div>
-            <div class="pokemon-information">
-                <div>
-                    <div>type</div>
+            <header class="section-pad">
+                <img class="bg-pokeball-2" src="./assets/icons/pokedex.svg" alt="">
+                <div class="d-flex-sb-c padding-16">
+                    <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${i})" src="./assets/icons/back-to-home.svg" alt="back">
+                    <h2 class="c-white ft-size-32">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
+                    <p class="c-white ft-size-24">#${pokemon.id}</p>
                 </div>
-                <h3>About</h3>
+                <div class="d-flex-sb-c p-relative">
+                    <img id="arrowLeft" class="" onclick="previousPokemon${i}" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
+                    <img id="pokemon${i}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
+                    <img id="arrowRight" class="" onclick="nextPokemon${i}" src="./assets/icons/chevron_right.svg" alt="next pokemon">
+                </div>
+            </header>
+            <main class="pokemon-information d-flex-se-c">
+                <div>
+                    <div>Type</div>
+                </div>
+                <h3 style="color: ${backgroundColor};">About</h3>
                 <div class="d-flex-c-c">
                     <div>
                         <div class="d-flex-c-c">
@@ -71,17 +74,17 @@ function generateBigPokemonCardContainer(i) {
                 </div>
                 <p>lorem ipsum</p>
                 <div class="d-flex-c-c">
-                    <h3>Base Stats</h3>
-                    <h3>Evolution</h3>
+                    <h3 style="color: ${backgroundColor};">Base Stats</h3>
+                    <h3 style="color: ${backgroundColor};">Evolution</h3>
                 </div>
                 <div>
-                    <h4>HP</h4>
-                    <h4>ATK</h4>
-                    <h4>DEF</h4>
-                    <h4>SATK</h4>
-                    <h4>SDEF</h4>
-                    <h4>SPD</h4>
+                    <h4 style="color: ${backgroundColor};">HP</h4>
+                    <h4 style="color: ${backgroundColor};">ATK</h4>
+                    <h4 style="color: ${backgroundColor};">DEF</h4>
+                    <h4 style="color: ${backgroundColor};">SATK</h4>
+                    <h4 style="color: ${backgroundColor};">SDEF</h4>
+                    <h4 style="color: ${backgroundColor};">SPD</h4>
             </div>
-        </div>
+        </main>
     `;
 }

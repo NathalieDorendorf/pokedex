@@ -12,6 +12,30 @@ a {
     text-decoration: none;
 }
 
+.p-relative {
+    position: relative;
+}
+
+.p-absolute {
+    position: absolute;
+}
+
+.ft-size-16 {
+    font-size: 16px;
+}
+
+.ft-size-24 {
+    font-size: 24px;
+}
+
+.ft-size-32 {
+    font-size: 32px;
+}
+
+.overflow {
+    overflow: hidden;
+}
+
 .d-none {
     display: none;
 }
@@ -74,6 +98,10 @@ a {
 
 .gap-64 {
     gap: 64px;
+}
+
+.padding-16 {
+    padding: 16px;
 }
 
 .section-pad {

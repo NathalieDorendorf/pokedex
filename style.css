@@ -140,9 +140,27 @@ input {
     width: 200px;
 }
 
+.image-pokemon-2 {
+    height: 200px;
+    width: 200px;
+    top: 20px;
+    left: 50%;
+}
+
 .bg-pokeball {
     position: absolute;
     opacity: 20%;
+}
+
+.bg-pokeball-2 {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    opacity: 20%;
+}
+
+.c-white {
+    color: var(--white);
 }
 
 .overlay-container {
@@ -152,15 +170,18 @@ input {
     top: 0;
     width: 100%;
     height: 100vh;
+    z-index: 5;
 }
 
 .big-pokemon-card {
-    height: 400px;
+    height: 100vh;
     width: 100%;
-    background: var(--bg-primary);
+    padding: 16px;
 }
 
 .pokemon-information {
+    flex-direction: column;
+    height: 75%;
     background: var(--white);
     border-radius: 12px;
     box-shadow: inset 0 1px 4px 0 var(--dark);

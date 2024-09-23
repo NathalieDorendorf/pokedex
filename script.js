@@ -118,9 +118,11 @@ async function loadMorePokemon() {
 }
 
 
-function openOverlay() {
+function openOverlay(i) {
     let overlay = document.getElementById('overlay');
     overlay.classList.remove('d-none');
+    let body = document.getElementById('body');
+    body.classList.add('overflow');
     overlay.innerHTML = generateBigPokemonCardContainer(i);
 }
 
@@ -128,6 +130,8 @@ function openOverlay() {
 function closeOverlay() {
     let overlay = document.getElementById('overlay');
     overlay.classList.add('d-none');
+    let body = document.getElementById('body');
+    body.classList.remove('overflow');
 }
 
 
