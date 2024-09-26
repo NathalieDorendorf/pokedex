@@ -7,12 +7,12 @@ function generateLoadingSpinner() {
 }
 
 
-function generateLittlePokemonCardContainer(pokemon, i) {
+function generateLittlePokemonCardContainer(pokemon) {
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
     return /*html*/`
-        <div onclick="openOverlay(${pokemon.id})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
+        <div onclick="openOverlay(${JSON.stringify(pokemon)})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <img class="bg-pokeball" src="./assets/icons/pokedex.svg" alt="">
             <div class="d-flex-sb-c">
                 <h2 class="z-index">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
@@ -29,7 +29,7 @@ function generateLittlePokemonCardContainer(pokemon, i) {
 }
 
 
-function generateBigPokemonCardContainer(i) {
+function generateBigPokemonCardContainer(index) {
     let pokemon = allPokemon[i];
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
@@ -50,10 +50,10 @@ function generateBigPokemonCardContainer(i) {
             </header>
             <main class="pokemon-information d-flex-se-c">
                 <div>
-                    <div>Type</div>
+                    <div>Type: </div>
                 </div>
                 <h3 style="color: ${backgroundColor};">About</h3>
-                <div class="d-flex-c-c">
+                <div class="d-flex-c-c gap-16">
                     <div>
                         <div class="d-flex-c-c">
                             <img id="weight" class="icon" src="./assets/icons/weight.svg" alt="weight">
@@ -72,13 +72,14 @@ function generateBigPokemonCardContainer(i) {
                     <div class="line"></div>
                     <div></div>
                 </div>
-                <p>lorem ipsum</p>
+                <p id="pokemon-info">lorem ipsum</p>
                 <div class="d-flex-c-c">
                     <h3 style="color: ${backgroundColor};">Base Stats</h3>
                     <h3 style="color: ${backgroundColor};">Evolution</h3>
                 </div>
                 <div>
                     <h4 style="color: ${backgroundColor};">HP</h4>
+                    <p>${pokemon.stats.map(stat => `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`).join(', ')}</p>
                     <h4 style="color: ${backgroundColor};">ATK</h4>
                     <h4 style="color: ${backgroundColor};">DEF</h4>
                     <h4 style="color: ${backgroundColor};">SATK</h4>

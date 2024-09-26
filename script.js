@@ -1,5 +1,6 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 const TYPE_URL = 'https://pokeapi.co/api/v2/type';
+const SINGLE_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon-species';
 
 let allPokemon = [];
 let currentPokemon = [];
@@ -51,10 +52,12 @@ async function fetchAllPokemonData() {
 }
 
 
-async function fetchSinglePokemonData(pokemonUrl) {
+async function fetchSinglePokemonData() {
+    let index = 1;
     try {
-        let response = await fetch(pokemonUrl);
-        let pokemonDetails = await response.json();
+        let response = await fetch(`${SINGLE_POKEMON_URL}/${index}`);
+        let responseAsJson = await response.json();
+        let pokemonDetails = responseAsJson.results;
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
@@ -118,12 +121,12 @@ async function loadMorePokemon() {
 }
 
 
-function openOverlay(i) {
+function openOverlay(index) {
     let overlay = document.getElementById('overlay');
     overlay.classList.remove('d-none');
     let body = document.getElementById('body');
     body.classList.add('overflow');
-    overlay.innerHTML = generateBigPokemonCardContainer(i);
+    overlay.innerHTML = generateBigPokemonCardContainer(index);
 }
 
 

@@ -180,6 +180,7 @@ input {
 }
 
 .pokemon-information {
+    padding-top: 100px;
     flex-direction: column;
     height: 75%;
     background: var(--white);
