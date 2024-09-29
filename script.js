@@ -41,6 +41,9 @@ async function fetchAllPokemonData() {
         let response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
         let responseAsJson = await response.json();
         let allPokemonData = responseAsJson.results;
+        let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
+        let allPokemonDetails = await Promise.all(promises);
+        allPokemon = allPokemonDetails;
         for (let i = 0; i < allPokemonData.length; i++) {
             const singlePokemonData = await fetchSinglePokemonData(allPokemonData[i].url);
             allPokemon.push(singlePokemonData);
