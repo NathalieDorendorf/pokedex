@@ -12,7 +12,7 @@ function generateLittlePokemonCardContainer(pokemon) {
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
     return /*html*/`
-        <div onclick="openOverlay(${JSON.stringify(pokemon)})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
+        <div onclick="openOverlay(${pokemon.id - 1})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <img class="bg-pokeball" src="./assets/icons/pokedex.svg" alt="">
             <div class="d-flex-sb-c">
                 <h2 class="z-index">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
@@ -30,7 +30,7 @@ function generateLittlePokemonCardContainer(pokemon) {
 
 
 function generateBigPokemonCardContainer(index) {
-    let pokemon = allPokemon[i];
+    let pokemon = allPokemon[index];
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     return /*html*/`
@@ -38,14 +38,14 @@ function generateBigPokemonCardContainer(index) {
             <header class="section-pad">
                 <img class="bg-pokeball-2" src="./assets/icons/pokedex.svg" alt="">
                 <div class="d-flex-sb-c padding-16">
-                    <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${i})" src="./assets/icons/back-to-home.svg" alt="back">
+                    <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${index})" src="./assets/icons/back-to-home.svg" alt="back">
                     <h2 class="c-white ft-size-32">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
                     <p class="c-white ft-size-24">#${pokemon.id}</p>
                 </div>
                 <div class="d-flex-sb-c p-relative">
-                    <img id="arrowLeft" class="" onclick="previousPokemon${i}" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
-                    <img id="pokemon${i}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
-                    <img id="arrowRight" class="" onclick="nextPokemon${i}" src="./assets/icons/chevron_right.svg" alt="next pokemon">
+                    <img id="arrowLeft" class="" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
+                    <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
+                    <img id="arrowRight" class="" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
                 </div>
             </header>
             <main class="pokemon-information d-flex-se-c">
@@ -77,15 +77,33 @@ function generateBigPokemonCardContainer(index) {
                     <h3 style="color: ${backgroundColor};">Base Stats</h3>
                     <h3 style="color: ${backgroundColor};">Evolution</h3>
                 </div>
-                <div>
-                    <h4 style="color: ${backgroundColor};">HP</h4>
-                    <p>${pokemon.stats.map(stat => `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`).join(', ')}</p>
-                    <h4 style="color: ${backgroundColor};">ATK</h4>
-                    <h4 style="color: ${backgroundColor};">DEF</h4>
-                    <h4 style="color: ${backgroundColor};">SATK</h4>
-                    <h4 style="color: ${backgroundColor};">SDEF</h4>
-                    <h4 style="color: ${backgroundColor};">SPD</h4>
-            </div>
-        </main>
+                <div class="base-stats-container">
+                    <div>
+                        <h4 style="color: ${backgroundColor};">HP</h4>
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'hp').base_stat}</p>
+                    </div>
+                    <div>
+                        <h4 style="color: ${backgroundColor};">Attack</h4>
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'attack').base_stat}</p>
+                    </div>
+                    <div>
+                        <h4 style="color: ${backgroundColor};">Defense</h4>
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'defense').base_stat}</p>
+                    </div>
+                    <div>
+                        <h4 style="color: ${backgroundColor};">Special Attack</h4>
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'special-attack').base_stat}</p>
+                    </div>
+                    <div>
+                        <h4 style="color: ${backgroundColor};">Special Defense</h4>                    
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'special-defense').base_stat}</p>
+                    </div>
+                    <div>
+                        <h4 style="color: ${backgroundColor};">Speed</h4>
+                        <p>${pokemon.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
+                    </div>
+                </div>
+            </main>
+        </div>
     `;
 }

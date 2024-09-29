@@ -52,12 +52,10 @@ async function fetchAllPokemonData() {
 }
 
 
-async function fetchSinglePokemonData() {
-    let index = 1;
+async function fetchSinglePokemonData(pokemonUrl) {
     try {
-        let response = await fetch(`${SINGLE_POKEMON_URL}/${index}`);
-        let responseAsJson = await response.json();
-        let pokemonDetails = responseAsJson.results;
+        let response = await fetch(pokemonUrl);
+        let pokemonDetails = await response.json();
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
@@ -111,6 +109,11 @@ function searchPokemon() {
     console.log(search);
     currentPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     console.log(currentPokemon);
+    if (currentPokemon.length === 0) {
+        console.log('Keine Pokemon gefunden');
+        document.getElementById('content').innerHTML = '<h2 class="d-flex-c-c section-pad text-center">Keine Pokemon gefunden</h2>';
+        return;
+    }
     renderFilteredLittlePokemonCard();
 }
 
@@ -138,4 +141,15 @@ function closeOverlay() {
 }
 
 
+function previousPokemon(currentIndex) {
+    if (currentIndex > 0) {
+        openOverlay(currentIndex - 1);
+    }
+}
 
+
+function nextPokemon(currentIndex) {
+    if (currentIndex < allPokemon.length - 1) {
+        openOverlay(currentIndex + 1);
+    }
+}
