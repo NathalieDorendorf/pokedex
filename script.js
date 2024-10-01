@@ -30,6 +30,28 @@ const typeColors = {
 };
 
 
+const typeImages = {
+    grass: "./assets/img/grass.svg",
+    fire: "./assets/img/fire.svg",
+    water: "./assets/img/water.svg",
+    bug: "./assets/img/bug.svg",
+    normal: "./assets/img/normal.svg",
+    poison: "./assets/img/poison.svg",
+    electric: "./assets/img/electric.svg",
+    ground: "./assets/img/ground.svg",
+    fairy: "./assets/img/fairy.svg",
+    fighting: "./assets/img/fighting.svg",
+    psychic: "./assets/img/psychic.svg",
+    rock: "./assets/img/rock.svg",
+    ghost: "./assets/img/ghost.svg",
+    ice: "./assets/img/ice.svg",
+    dragon: "./assets/img/dragon.svg",
+    dark: "./assets/img/dark.svg",
+    steel: "./assets/img/steel.svg",
+    flying: "./assets/img/flying.svg"
+};
+
+
 async function init() {
     showLoadingSpinner();
     await fetchAllPokemonData();
@@ -43,11 +65,7 @@ async function fetchAllPokemonData() {
         let allPokemonData = responseAsJson.results;
         let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
         let allPokemonDetails = await Promise.all(promises);
-        allPokemon = allPokemonDetails;
-        for (let i = 0; i < allPokemonData.length; i++) {
-            const singlePokemonData = await fetchSinglePokemonData(allPokemonData[i].url);
-            allPokemon.push(singlePokemonData);
-        }
+        allPokemon = [...allPokemon, ...allPokemonDetails];
         renderLittlePokemonCard();
     } catch (error) {
         console.error('Pokemon konnten nicht geladen werden', error);

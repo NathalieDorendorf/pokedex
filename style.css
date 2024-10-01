@@ -151,6 +151,11 @@ input {
     left: 50%;
 }
 
+.type-image {
+    height: 24px;
+    width: 24px;
+}
+
 .bg-pokeball {
     position: absolute;
     opacity: 20%;
