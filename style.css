@@ -127,6 +127,7 @@ input {
         22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
         41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
         100px 100px 80px rgba(0, 0, 0, 0.07);
+    z-index: 0;
 }
 
 .little-pokemon-card:hover {
@@ -142,6 +143,7 @@ input {
 .image-pokemon {
     height: 200px;
     width: 200px;
+    filter: drop-shadow(0px 0px 2px var(--dark));
 }
 
 .image-pokemon-2 {
@@ -149,16 +151,19 @@ input {
     width: 200px;
     top: 20px;
     left: 50%;
+    filter: drop-shadow(0px 0px 2px var(--dark));
 }
 
 .type-image {
     height: 24px;
     width: 24px;
+    filter: drop-shadow(0px 0px 2px var(--dark));
 }
 
 .bg-pokeball {
     position: absolute;
     opacity: 20%;
+    z-index: -1;
 }
 
 .bg-pokeball-2 {

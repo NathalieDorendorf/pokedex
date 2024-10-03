@@ -36,7 +36,7 @@ function generateBigPokemonCardContainer(index) {
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let type1 = typeImages[mainType];
-    let type2 = pokemon.types[1] && typeImages[pokemon.types[1].type.name] || '';
+    let type2 = pokemon.types[1] ? typeImages[pokemon.types[1].type.name] : null;
     return /*html*/`
         <div class="big-pokemon-card" style="background-color: ${backgroundColor};">
             <header class="section-pad">
@@ -54,8 +54,8 @@ function generateBigPokemonCardContainer(index) {
             </header>
             <main class="pokemon-information d-flex-se-c">
                 <div>
-                    <img class="type-image" src="${type1}"></img>
-                    <img class="type-image" src="${type2}"></img>
+                    <img class="type-image" src="${type1}" alt="${mainType}"></img>
+                    ${type2 ? /*html */`<img class="z-index type-image" src="${type2}" alt="${pokemon.types[1].type.name}"></img>` : ''}
                 </div>
                 <h3 style="color: ${backgroundColor};">About</h3>
                 <div class="d-flex-c-c gap-16">
