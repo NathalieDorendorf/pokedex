@@ -43,13 +43,13 @@ function generateBigPokemonCardContainer(index) {
                 <img class="bg-pokeball-2" src="./assets/icons/pokedex.svg" alt="">
                 <div class="d-flex-sb-c padding-16">
                     <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${index})" src="./assets/icons/back-to-home.svg" alt="back">
-                    <h2 class="c-white ft-size-32">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-                    <p class="c-white ft-size-24">#${pokemon.id}</p>
+                    <h2 class="c-white ft-size-h2">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
+                    <p class="c-white ft-size-p">#${pokemon.id}</p>
                 </div>
                 <div class="d-flex-sb-c p-relative">
-                    <img id="arrowLeft" class="" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
+                    <img id="arrowLeft" class="arrow" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
                     <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
-                    <img id="arrowRight" class="" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
+                    <img id="arrowRight" class="arrow" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
                 </div>
             </header>
             <main class="pokemon-information d-flex-se-c">
