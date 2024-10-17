@@ -2,11 +2,13 @@ const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 const TYPE_URL = 'https://pokeapi.co/api/v2/type';
 const SINGLE_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon-species';
 
+let allPokemonNames = [];
 let allPokemon = [];
 let currentPokemon = [];
 let offset = 0;
 let limit = 25;
 let type = 1;
+// let AUDIO_CRIES = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon.id}.ogg`);
 
 const typeColors = {
     grass: "#74cb48",
@@ -54,6 +56,7 @@ const typeImages = {
 
 async function init() {
     showLoadingSpinner();
+    await fetchPokemonName();
     await fetchAllPokemonData();
 }
 
@@ -63,6 +66,7 @@ async function fetchAllPokemonData() {
         let response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
         let responseAsJson = await response.json();
         let allPokemonData = responseAsJson.results;
+        console.log(allPokemonData);
         let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
         let allPokemonDetails = await Promise.all(promises);
         allPokemon = [...allPokemon, ...allPokemonDetails];
@@ -77,9 +81,36 @@ async function fetchSinglePokemonData(pokemonUrl) {
     try {
         let response = await fetch(pokemonUrl);
         let pokemonDetails = await response.json();
+        console.log(pokemonDetails);
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
+    }
+}
+
+
+async function fetchPokemonName() {
+    try {
+        let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
+        let responseAsJson = await response.json();
+        let allNames = responseAsJson.results;
+        console.log(allNames);
+        return allPokemonNames.push(...allNames);
+    } catch (error) {
+        console.error('Namen konnten nicht geladen werden', error);
+    }
+}
+
+
+async function fetchCurrentSinglePokemonData(index) {
+    let singlePokemon = currentPokemon[index];
+    try {
+        let response = await fetch(singlePokemon.url);
+        let currentPokemonDetails = await response.json();
+        console.log(currentPokemonDetails);
+        return currentPokemon.push(currentPokemonDetails);
+    } catch (error) {
+        console.error('Einzelpokemon konnten nicht geladen werden', error);
     }
 }
 
@@ -124,17 +155,25 @@ function renderFilteredLittlePokemonCard() {
 }
 
 
-function searchPokemon() {
+async function searchPokemon() {
     let search = document.getElementById('search').value;
-    search = search.toLowerCase();
+    search = search.trim().toLowerCase();
     console.log(search);
-    currentPokemon = allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(search));
-    console.log(currentPokemon);
-    if (currentPokemon.length === 0) {
+    let matchedPokemon = allPokemonNames.filter(pokemon => pokemon.name.toLowerCase().includes(search));
+    currentPokemon = [];
+    console.log(matchedPokemon);
+    if (search === '') {
+        renderLittlePokemonCard();
+        return;
+    } else if (matchedPokemon.length === 0) {
         console.log('Keine Pokemon gefunden');
         document.getElementById('content').innerHTML = '<h2 class="d-flex-c-c section-pad text-center">Keine Pokemon gefunden</h2>';
         return;
-    }
+        } else if (search.length >= 3) {
+            let promises = matchedPokemon.map(pokemon => fetchSinglePokemonData(pokemon.url));
+            currentPokemon = await Promise.all(promises);
+            console.log('Pokemon gefunden: ', currentPokemon);
+        }
     renderFilteredLittlePokemonCard();
 }
 
@@ -151,6 +190,7 @@ function openOverlay(index) {
     let body = document.getElementById('body');
     body.classList.add('overflow');
     overlay.innerHTML = generateBigPokemonCardContainer(index);
+    // AUDIO_CRIES.play(index);
 }
 
 

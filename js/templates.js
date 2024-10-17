@@ -39,7 +39,7 @@ function generateBigPokemonCardContainer(index) {
     let type2 = pokemon.types[1] ? typeImages[pokemon.types[1].type.name] : null;
     return /*html*/`
         <div class="big-pokemon-card" style="background-color: ${backgroundColor};">
-            <header class="section-pad">
+            <header class="header-overlay">
                 <img class="bg-pokeball-2" src="./assets/icons/pokedex.svg" alt="">
                 <div class="d-flex-sb-c padding-16">
                     <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${index})" src="./assets/icons/back-to-home.svg" alt="back">
@@ -75,9 +75,9 @@ function generateBigPokemonCardContainer(index) {
                         <p>Height</p>
                     </div>
                     <div class="line"></div>
-                    <div></div>
+                    <!-- <div id="moves">${pokemon.moves.map(move => move.move.name).join(', ')}</div> -->
                 </div>
-                <p id="pokemon-info">lorem ipsum</p>
+                <p id="pokemon-info">lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, sapien vel malesuada bibendum, velit turpis malesuada mauris, vel luctus velit sapien vel mi.</p>
                 <div class="d-flex-c-c">
                     <h3 style="color: ${backgroundColor};">Base Stats</h3>
                     <h3 style="color: ${backgroundColor};">Evolution</h3>
