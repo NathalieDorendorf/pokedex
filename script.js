@@ -8,7 +8,6 @@ let currentPokemon = [];
 let offset = 0;
 let limit = 25;
 let type = 1;
-// let AUDIO_CRIES = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon.id}.ogg`);
 
 const typeColors = {
     grass: "#74cb48",
@@ -190,7 +189,12 @@ function openOverlay(index) {
     let body = document.getElementById('body');
     body.classList.add('overflow');
     overlay.innerHTML = generateBigPokemonCardContainer(index);
-    // AUDIO_CRIES.play(index);
+    let pokemon = allPokemon[index];
+    let AUDIO_CRIES = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon.id}.ogg`);
+    AUDIO_CRIES.play();
+    AUDIO_CRIES.onerror = function() {
+        console.error('Schrei konnte nicht abgespielt werden');
+    };
 }
 
 
