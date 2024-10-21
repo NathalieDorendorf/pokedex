@@ -57,10 +57,10 @@ function generateBigPokemonCardContainer(index) {
                     <img class="type-image" src="${type1}" alt="${mainType}"></img>
                     ${type2 ? /*html */`<img class="z-index type-image" src="${type2}" alt="${pokemon.types[1].type.name}"></img>` : ''}
                 </div>
-                <div class="d-flex-c-c gap-24">
-                    <a href="#" onclick="toggleSection('about')"><h3 style="color: ${backgroundColor};">About</h3></a>
-                    <a href="#" onclick="toggleSection('baseStats')"><h3 style="color: ${backgroundColor};">Base Stats</h3></a>
-                    <a href="#" onclick="toggleSection('evolutions')"><h3 style="color: ${backgroundColor};">Evolutions</h3></a>
+                <div class="d-flex-c-c sub-headline">
+                    <a style="color: ${backgroundColor};" href="#" onclick="toggleSection('about')"><h3 style="color: ${backgroundColor};">About</h3></a>
+                    <a style="color: ${backgroundColor};" href="#" onclick="toggleSection('baseStats')"><h3 style="color: ${backgroundColor};">Base Stats</h3></a>
+                    <a style="color: ${backgroundColor};" href="#" onclick="toggleSection('evolutions')"><h3 style="color: ${backgroundColor};">Evolutions</h3></a>
                 </div>
                 <section class="about" id="about">
                     <div class="d-flex-c-c gap-16">
@@ -84,8 +84,7 @@ function generateBigPokemonCardContainer(index) {
                     </div>
                     <p id="pokemon-info">${pokemon.germanDescription || 'Keine Beschreibung verfügbar.'}</p>
                 </section>
-                <section class="base-stats d-none" id="baseStats">
-                    <div class="base-stats-container">
+                <section class="base-stats-container d-none" id="baseStats">
                         <div>
                             <h4 style="color: ${backgroundColor};">HP</h4>
                             <p>${pokemon.stats.find(stat => stat.stat.name === 'hp').base_stat}</p>
@@ -110,20 +109,20 @@ function generateBigPokemonCardContainer(index) {
                             <h4 style="color: ${backgroundColor};">Speed</h4>
                             <p>${pokemon.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
                         </div>
-                    </div>
                 </section>
-                <section class="evolutions d-none d-flex-c-c gap-24" id="evolutions">
-                    <div>
-                        <h5>${pokemon.name}</h5>
+                <section class="evolutions d-flex-c-c d-none" id="evolutions">
+                    <div class= "text-center">
+                        <h5>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
                         <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
                     </div>
-                    <div>
-                        <h5>${pokemon.name}</h5>
-                        <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
+                    <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>                    <div class= "text-center">
+                        <h5>${allPokemon[index + 1].name.charAt(0).toUpperCase() + allPokemon[index + 1].name.slice(1)}</h5>
+                        <img class="image-pokemon-3" src="${allPokemon[index + 1].sprites.other.home.front_default}" alt="${allPokemon[index + 1].name}">
                     </div>
-                    <div>
-                        <h5>${pokemon.name}</h5>
-                        <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
+                    <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>
+                    <div class= "text-center">
+                        ${allPokemon[index + 2].name.charAt(0).toUpperCase() + allPokemon[index + 2].name.slice(1) ? /*html */`<h5>${allPokemon[index + 2].name.charAt(0).toUpperCase() + allPokemon[index + 2].name.slice(1)}</h5>
+                            <img class="image-pokemon-3" src="${allPokemon[index + 2].sprites.other.home.front_default}" alt="${allPokemon[index + 2].name}">` : ''}
                     </div>
                 </section>
             </div>
