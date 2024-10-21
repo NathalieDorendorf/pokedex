@@ -149,7 +149,7 @@ input {
 .image-pokemon-2 {
     height: 200px;
     width: 200px;
-    top: 20px;
+    top: 0px;
     left: 50%;
     filter: drop-shadow(0px 0px 2px var(--dark));
     transform: translateX(-50%);
@@ -221,6 +221,10 @@ input {
     width: 4px;
 }
 
+.stats-evolutions-container {
+    flex-direction: column;
+}
+
 .base-stats-container {
     display: flex;
     flex-direction: column;
@@ -229,6 +233,11 @@ input {
     padding: 32px;
 }
 
+.image-pokemon-3 {
+    height: 75px;
+    width: 75px;
+    filter: drop-shadow(0px 0px 2px var(--dark));
+}
 
 @media (max-width:480px) {
     .headline {
@@ -242,7 +251,6 @@ input {
     .image-pokemon-2 {
         height: 150px;
         width: 150px;
-        top: 0px;
     }
     .ft-size-h2 {
         font-size: 24px;
@@ -272,7 +280,6 @@ input {
     .image-pokemon-2 {
         height: 170px;
         width: 170px;
-        top: 0px;
     }
 }
 
@@ -292,7 +299,6 @@ input {
     .image-pokemon-2 {
         height: 185px;
         width: 185px;
-        top: 0px;
     }
 }
 
@@ -312,7 +318,6 @@ input {
     .image-pokemon-2 {
         height: 185px;
         width: 185px;
-        top: 0px;
     }
 }
 

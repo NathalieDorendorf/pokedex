@@ -52,63 +52,81 @@ function generateBigPokemonCardContainer(index) {
                     <img id="arrowRight" class="arrow" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
                 </div>
             </header>
-            <main class="pokemon-information d-flex-se-c">
-                <div>
+            <div class="pokemon-information d-flex-c-c gap-16">
+                <div class="d-flex-c-c gap-16">
                     <img class="type-image" src="${type1}" alt="${mainType}"></img>
                     ${type2 ? /*html */`<img class="z-index type-image" src="${type2}" alt="${pokemon.types[1].type.name}"></img>` : ''}
                 </div>
-                <h3 style="color: ${backgroundColor};">About</h3>
-                <div class="d-flex-c-c gap-16">
-                    <div>
-                        <div class="d-flex-c-c">
-                            <img id="weight" class="icon" src="./assets/icons/weight.svg" alt="weight">
-                            <p>${pokemon.weight / 10} kg</p>
+                <div class="d-flex-c-c gap-24">
+                    <a href="#" onclick="toggleSection('about')"><h3 style="color: ${backgroundColor};">About</h3></a>
+                    <a href="#" onclick="toggleSection('baseStats')"><h3 style="color: ${backgroundColor};">Base Stats</h3></a>
+                    <a href="#" onclick="toggleSection('evolutions')"><h3 style="color: ${backgroundColor};">Evolutions</h3></a>
+                </div>
+                <section class="about" id="about">
+                    <div class="d-flex-c-c gap-16">
+                        <div>
+                            <div class="d-flex-c-c">
+                                <img id="weight" class="icon" src="./assets/icons/weight.svg" alt="weight">
+                                <p>${pokemon.weight / 10} kg</p>
+                            </div>
+                            <p>Weight</p>
                         </div>
-                        <p>Weight</p>
-                    </div>
-                    <div class="line"></div>
-                    <div>
-                        <div class="d-flex-c-c">
-                            <img id="height" class="icon" src="./assets/icons/height.svg" alt="height">
-                            <p>${pokemon.height / 10} m</p>
+                        <div class="line"></div>
+                        <div>
+                            <div class="d-flex-c-c">
+                                <img id="height" class="icon" src="./assets/icons/height.svg" alt="height">
+                                <p>${pokemon.height / 10} m</p>
+                            </div>
+                            <p>Height</p>
                         </div>
-                        <p>Height</p>
+                        <!-- <div class="line"></div> -->
+                        <!-- <div id="moves">${pokemon.moves.map(move => move.move.name).join(', ')}</div> -->
                     </div>
-                    <div class="line"></div>
-                    <!-- <div id="moves">${pokemon.moves.map(move => move.move.name).join(', ')}</div> -->
-                </div>
-                <p id="pokemon-info">lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, sapien vel malesuada bibendum, velit turpis malesuada mauris, vel luctus velit sapien vel mi.</p>
-                <div class="d-flex-c-c">
-                    <h3 style="color: ${backgroundColor};">Base Stats</h3>
-                    <h3 style="color: ${backgroundColor};">Evolution</h3>
-                </div>
-                <div class="base-stats-container">
+                    <p id="pokemon-info">${pokemon.germanDescription || 'Keine Beschreibung verfügbar.'}</p>
+                </section>
+                <section class="base-stats d-none" id="baseStats">
+                    <div class="base-stats-container">
+                        <div>
+                            <h4 style="color: ${backgroundColor};">HP</h4>
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'hp').base_stat}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: ${backgroundColor};">Attack</h4>
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'attack').base_stat}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: ${backgroundColor};">Defense</h4>
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'defense').base_stat}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: ${backgroundColor};">Special Attack</h4>
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'special-attack').base_stat}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: ${backgroundColor};">Special Defense</h4>                    
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'special-defense').base_stat}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: ${backgroundColor};">Speed</h4>
+                            <p>${pokemon.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="evolutions d-none d-flex-c-c gap-24" id="evolutions">
                     <div>
-                        <h4 style="color: ${backgroundColor};">HP</h4>
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'hp').base_stat}</p>
+                        <h5>${pokemon.name}</h5>
+                        <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
                     </div>
                     <div>
-                        <h4 style="color: ${backgroundColor};">Attack</h4>
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'attack').base_stat}</p>
+                        <h5>${pokemon.name}</h5>
+                        <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
                     </div>
                     <div>
-                        <h4 style="color: ${backgroundColor};">Defense</h4>
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'defense').base_stat}</p>
+                        <h5>${pokemon.name}</h5>
+                        <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
                     </div>
-                    <div>
-                        <h4 style="color: ${backgroundColor};">Special Attack</h4>
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'special-attack').base_stat}</p>
-                    </div>
-                    <div>
-                        <h4 style="color: ${backgroundColor};">Special Defense</h4>                    
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'special-defense').base_stat}</p>
-                    </div>
-                    <div>
-                        <h4 style="color: ${backgroundColor};">Speed</h4>
-                        <p>${pokemon.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
-                    </div>
-                </div>
-            </main>
+                </section>
+            </div>
         </div>
     `;
 }

@@ -57,6 +57,7 @@ async function init() {
     showLoadingSpinner();
     await fetchPokemonName();
     await fetchAllPokemonData();
+    // await fetchPokemonSpecies(i);
 }
 
 
@@ -65,7 +66,6 @@ async function fetchAllPokemonData() {
         let response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
         let responseAsJson = await response.json();
         let allPokemonData = responseAsJson.results;
-        console.log(allPokemonData);
         let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
         let allPokemonDetails = await Promise.all(promises);
         allPokemon = [...allPokemon, ...allPokemonDetails];
@@ -80,7 +80,11 @@ async function fetchSinglePokemonData(pokemonUrl) {
     try {
         let response = await fetch(pokemonUrl);
         let pokemonDetails = await response.json();
-        console.log(pokemonDetails);
+        let speciesResponse = await fetch(pokemonDetails.species.url);
+        let speciesDetails = await speciesResponse.json();
+        let germanDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'de').flavor_text;
+        pokemonDetails.germanDescription = germanDescription ? germanDescription : 'Keine deutsche Beschreibung verfügbar';
+        console.log(pokemonDetails.germanDescription);
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
@@ -93,7 +97,6 @@ async function fetchPokemonName() {
         let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
         let responseAsJson = await response.json();
         let allNames = responseAsJson.results;
-        console.log(allNames);
         return allPokemonNames.push(...allNames);
     } catch (error) {
         console.error('Namen konnten nicht geladen werden', error);
@@ -106,12 +109,25 @@ async function fetchCurrentSinglePokemonData(index) {
     try {
         let response = await fetch(singlePokemon.url);
         let currentPokemonDetails = await response.json();
-        console.log(currentPokemonDetails);
         return currentPokemon.push(currentPokemonDetails);
     } catch (error) {
         console.error('Einzelpokemon konnten nicht geladen werden', error);
     }
 }
+
+
+// async function fetchPokemonSpecies(i) {
+//     let pokemon = allPokemon[i];
+//     try {
+//         let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemon.id}`);
+//         let responseAsJson = await response.json();
+//         let pokemonSpecies = responseAsJson;
+//         console.log(pokemonSpecies);
+//         return pokemonSpecies;
+//     } catch (error) {
+//         console.error('Spezies konnten nicht geladen werden', error);
+//     }
+// }
 
 
 async function fetchPokemonType() {
@@ -217,4 +233,16 @@ function nextPokemon(currentIndex) {
     if (currentIndex < allPokemon.length - 1) {
         openOverlay(currentIndex + 1);
     }
+}
+
+
+function toggleSection(i) {
+    let sections = ['about', 'baseStats', 'evolutions'];
+    sections.forEach(sectionId => {
+        if (sectionId === i) {
+            document.getElementById(sectionId).classList.remove('d-none');
+        } else {
+            document.getElementById(sectionId).classList.add('d-none');
+        }
+    });
 }
