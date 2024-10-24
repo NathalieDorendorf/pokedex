@@ -232,6 +232,57 @@ input {
     gap: 24px;
 }
 
+/* .progress-bar { 
+    height: 16px;
+    width: 100%;
+    background-color: var(--light);
+    border-radius: 8px;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease-in-out;
+} */
+
+#pokemonInfoSection {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 12px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+}
+
 .pokemon-information {
     padding-top: 100px;
     flex-direction: column;
@@ -254,8 +305,11 @@ input {
 .base-stats-container {
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 6px;
     align-items: flex-start;
+    padding: 0 24px;
+    font-size: 14px;
 }
 
 .image-pokemon-3 {

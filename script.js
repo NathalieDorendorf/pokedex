@@ -57,7 +57,6 @@ async function init() {
     showLoadingSpinner();
     await fetchPokemonName();
     await fetchAllPokemonData();
-    // await fetchPokemonSpecies(i);
 }
 
 
@@ -84,7 +83,6 @@ async function fetchSinglePokemonData(pokemonUrl) {
         let speciesDetails = await speciesResponse.json();
         let germanDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'de').flavor_text;
         pokemonDetails.germanDescription = germanDescription ? germanDescription : 'Keine deutsche Beschreibung verfügbar';
-        console.log(pokemonDetails.germanDescription);
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
@@ -114,20 +112,6 @@ async function fetchCurrentSinglePokemonData(index) {
         console.error('Einzelpokemon konnten nicht geladen werden', error);
     }
 }
-
-
-// async function fetchPokemonSpecies(i) {
-//     let pokemon = allPokemon[i];
-//     try {
-//         let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemon.id}`);
-//         let responseAsJson = await response.json();
-//         let pokemonSpecies = responseAsJson;
-//         console.log(pokemonSpecies);
-//         return pokemonSpecies;
-//     } catch (error) {
-//         console.error('Spezies konnten nicht geladen werden', error);
-//     }
-// }
 
 
 async function fetchPokemonType() {
@@ -173,21 +157,17 @@ function renderFilteredLittlePokemonCard() {
 async function searchPokemon() {
     let search = document.getElementById('search').value;
     search = search.trim().toLowerCase();
-    console.log(search);
     let matchedPokemon = allPokemonNames.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     currentPokemon = [];
-    console.log(matchedPokemon);
     if (search === '') {
         renderLittlePokemonCard();
         return;
     } else if (matchedPokemon.length === 0) {
-        console.log('Keine Pokemon gefunden');
         document.getElementById('content').innerHTML = '<h2 class="d-flex-c-c section-pad text-center">Keine Pokemon gefunden</h2>';
         return;
         } else if (search.length >= 3) {
             let promises = matchedPokemon.map(pokemon => fetchSinglePokemonData(pokemon.url));
             currentPokemon = await Promise.all(promises);
-            console.log('Pokemon gefunden: ', currentPokemon);
         }
     renderFilteredLittlePokemonCard();
 }
@@ -236,13 +216,14 @@ function nextPokemon(currentIndex) {
 }
 
 
-function toggleSection(i) {
-    let sections = ['about', 'baseStats', 'evolutions'];
-    sections.forEach(sectionId => {
-        if (sectionId === i) {
-            document.getElementById(sectionId).classList.remove('d-none');
-        } else {
-            document.getElementById(sectionId).classList.add('d-none');
-        }
-    });
+function showSection(index, section) {
+    document.getElementById('pokemonInfoSection').innerHTML = '';
+    if (section === 'about') {
+        document.getElementById('pokemonInfoSection').innerHTML = generateAboutSection(index);
+    } else if (section === 'baseStats') {
+        document.getElementById('pokemonInfoSection').innerHTML = generateBaseStatsSection(index);
+    } else if (section === 'evolutions') {
+        document.getElementById('pokemonInfoSection').innerHTML = generateEvolutionsSection(index);
+    }
 }
+
