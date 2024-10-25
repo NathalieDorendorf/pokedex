@@ -193,12 +193,12 @@ function generateEvolutionsSection(index) {
     let pokemon = allPokemon[index];
     let mainType = pokemon.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
-    if (pokemon.evolutions.length === 0) {
+    
+    if (basePokemon && !firstEvolution && !secondEvolution) {
         return /*html*/`
             <section class="evolutions d-flex-c-c d-none" id="evolutions">
                 <div class= "text-center">
-                    <h5>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
-                    <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
+                    <h5>Das Pokemon kann sich nicht weiter entwickeln.</h5>
                 </div>                
             </section>
         `;

@@ -127,6 +127,30 @@ async function fetchPokemonType() {
 }
 
 
+async function fetchEvolutionChain(pokemonId) {
+    try {
+        let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId}/`);
+        let responseAsJson = await response.json();
+        let evolutionResponse = await fetch(responseAsJson.evolution_chain.url);
+        let evolutionData = await evolutionResponse.json();
+        console.log('Evolution Chain: ', evolutionData);
+        loadEvolutionChain(evolutionData.chain);
+    } catch (error) {
+        console.error('Evolution Chain konnten nicht geladen werden', error);
+    }
+}
+
+
+function loadEvolutionChain(chain) {
+    let basePokemon = chain;
+    console.log('Base Pokemon: ', basePokemon);
+    let firstEvolution = chain.evolves_to[0];
+    console.log('First Evolution: ', firstEvolution);
+    let secondEvolution = firstEvolution.evolves_to[0];
+    console.log('Second Evolution: ', secondEvolution);
+}
+
+
 function showLoadingSpinner() {
     let content = document.getElementById('content');
     content.innerHTML = '';
@@ -179,13 +203,14 @@ async function loadMorePokemon() {
 }
 
 
-function openOverlay(index) {
+async function openOverlay(index) {
     let overlay = document.getElementById('overlay');
     overlay.classList.remove('d-none');
     let body = document.getElementById('body');
     body.classList.add('overflow');
     overlay.innerHTML = generateBigPokemonCardContainer(index);
     let pokemon = allPokemon[index];
+    await fetchEvolutionChain(pokemon.id);
     let AUDIO_CRIES = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon.id}.ogg`);
     AUDIO_CRIES.play();
     AUDIO_CRIES.onerror = function() {
@@ -216,7 +241,7 @@ function nextPokemon(currentIndex) {
 }
 
 
-function showSection(index, section) {
+async function showSection(index, section) {
     document.getElementById('pokemonInfoSection').innerHTML = '';
     if (section === 'about') {
         document.getElementById('pokemonInfoSection').innerHTML = generateAboutSection(index);
