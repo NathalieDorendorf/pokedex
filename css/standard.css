@@ -72,6 +72,12 @@ a {
     align-items: center;
 }
 
+.d-flex-fe-c {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .gap-8 {
     gap: 8px;
 }

@@ -5,6 +5,7 @@ const SINGLE_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon-species';
 let allPokemonNames = [];
 let allPokemon = [];
 let currentPokemon = [];
+let displayedPokemonCount = 25;
 let offset = 0;
 let limit = 25;
 let type = 1;
@@ -62,13 +63,13 @@ async function init() {
 
 async function fetchAllPokemonData() {
     try {
-        let response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
+        let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
         let responseAsJson = await response.json();
         let allPokemonData = responseAsJson.results;
         let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
         let allPokemonDetails = await Promise.all(promises);
         allPokemon = [...allPokemon, ...allPokemonDetails];
-        renderLittlePokemonCard();
+        renderLittlePokemonCard(0, displayedPokemonCount);
     } catch (error) {
         console.error('Pokemon konnten nicht geladen werden', error);
     }
@@ -83,6 +84,8 @@ async function fetchSinglePokemonData(pokemonUrl) {
         let speciesDetails = await speciesResponse.json();
         let germanDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'de').flavor_text;
         pokemonDetails.germanDescription = germanDescription ? germanDescription : 'Keine deutsche Beschreibung verfügbar';
+        let englishDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;
+        pokemonDetails.englishDescription = englishDescription ? englishDescription : 'No english description available';
         return pokemonDetails;
     } catch (error) {
         console.error('Einzeldaten konnten nicht geladen werden', error);
@@ -133,21 +136,33 @@ async function fetchEvolutionChain(pokemonId) {
         let responseAsJson = await response.json();
         let evolutionResponse = await fetch(responseAsJson.evolution_chain.url);
         let evolutionData = await evolutionResponse.json();
-        console.log('Evolution Chain: ', evolutionData);
-        loadEvolutionChain(evolutionData.chain);
+        console.log('Evolution Chain Data: ', evolutionData);
+        
+        const evolutions = {};
+        const baseEvolutionParts = evolutionData.chain.species.url.split('/');
+        const baseEvolutionId = baseEvolutionParts[baseEvolutionParts.length - 2];
+        const baseEvolutionSprite = allPokemon[+baseEvolutionId - 1].sprites.other.home.front_default;
+        evolutions.base = allPokemon[+baseEvolutionId - 1];
+        const firstEvolution = evolutionData.chain.evolves_to[0];
+        if (firstEvolution) {
+            const firstEvolutionParts = firstEvolution.species.url.split('/');
+            const firstEvolutionId = firstEvolutionParts[firstEvolutionParts.length - 2];
+            const firstEvolutionSprite = allPokemon[+firstEvolutionId - 1].sprites.other.home.front_default;
+            evolutions.first = allPokemon[+firstEvolutionId - 1];
+            const secondEvolution = firstEvolution.evolves_to[0];
+            if (secondEvolution) {
+                const secondEvolutionParts = secondEvolution.species.url.split('/');
+                const secondEvolutionId = secondEvolutionParts[secondEvolutionParts.length - 2];
+                const secondEvolutionSprite = allPokemon[+secondEvolutionId - 1].sprites.other.home.front_default;
+                evolutions.second = allPokemon[+secondEvolutionId - 1];
+            }
+        }
+        console.log('Evolution Chain: ', evolutions);
+        
+        generateEvolutionsSection(evolutions);
     } catch (error) {
-        console.error('Evolution Chain konnten nicht geladen werden', error);
+        console.error('Evolution Chain konnte nicht geladen werden', error);
     }
-}
-
-
-function loadEvolutionChain(chain) {
-    let basePokemon = chain;
-    console.log('Base Pokemon: ', basePokemon);
-    let firstEvolution = chain.evolves_to[0];
-    console.log('First Evolution: ', firstEvolution);
-    let secondEvolution = firstEvolution.evolves_to[0];
-    console.log('Second Evolution: ', secondEvolution);
 }
 
 
@@ -158,12 +173,16 @@ function showLoadingSpinner() {
 }
 
 
-function renderLittlePokemonCard() {
+function renderLittlePokemonCard(startIndex, count) {
     let content = document.getElementById('content');
     content.innerHTML = '';
-    for (let i = 0; i < allPokemon.length; i++) {
+    let endIndex = Math.min(startIndex + count, allPokemon.length);
+    for (let i = startIndex; i < endIndex; i++) {
         const pokemonCard = allPokemon[i];
         content.innerHTML += generateLittlePokemonCardContainer(pokemonCard);
+    }
+    if (endIndex >= allPokemon.length) {
+        document.getElementById('button').classList.add('d-none');
     }
 }
 
@@ -199,7 +218,7 @@ async function searchPokemon() {
 
 async function loadMorePokemon() {
     offset += limit;
-    await fetchAllPokemonData();
+    await fetchAllPokemonData(offset, limit);
 }
 
 
@@ -216,6 +235,7 @@ async function openOverlay(index) {
     AUDIO_CRIES.onerror = function() {
         console.error('Schrei konnte nicht abgespielt werden');
     };
+    hideFirstArrowOnCard(index);
 }
 
 
@@ -237,6 +257,18 @@ function previousPokemon(currentIndex) {
 function nextPokemon(currentIndex) {
     if (currentIndex < allPokemon.length - 1) {
         openOverlay(currentIndex + 1);
+    }
+}
+
+
+function hideFirstArrowOnCard(index) {
+    if (index == 0) {
+        document
+            .getElementById(`arrowLeft${index}`)
+            .classList.add("d-none");
+        document
+            .getElementById(`arrowDiv`)
+            .style.justifyContent = "flex-end";
     }
 }
 

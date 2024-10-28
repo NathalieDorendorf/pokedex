@@ -224,31 +224,16 @@ input {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     padding: 0 24px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .evolutions {
     gap: 24px;
 }
-
-/* .progress-bar { 
-    height: 16px;
-    width: 100%;
-    background-color: var(--light);
-    border-radius: 8px;
-    position: relative;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: 8px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: width 0.5s ease-in-out;
-} */
 
 #pokemonInfoSection {
     display: flex;
@@ -290,6 +275,7 @@ input {
     background: var(--white);
     border-radius: 12px;
     box-shadow: inset 0 1px 4px 0 var(--dark);
+    gap: 40px;
 }
 
 .line {
@@ -309,7 +295,10 @@ input {
     gap: 6px;
     align-items: flex-start;
     padding: 0 24px;
+    margin: 0 auto;
     font-size: 14px;
+    width: 100%;
+    max-width: 500px;
 }
 
 .image-pokemon-3 {
@@ -357,6 +346,13 @@ input {
         height: 16px;
         width: 16px;
     }
+    .about {
+        gap: 16px;
+    }
+    .bg-pokeball-2 {
+        height: 120px;
+        width: 120px;
+    }
 }
 
 
@@ -380,6 +376,10 @@ input {
     .evolutions {
         gap: 12px;
     }
+    .bg-pokeball-2 {
+        height: 120px;
+        width: 120px;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 601px) {
@@ -402,6 +402,10 @@ input {
         height: 160px;
         width: 160px;
     }
+    .bg-pokeball-2 {
+        height: 160px;
+        width: 160px;
+    }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -420,6 +424,10 @@ input {
     .image-pokemon-2 {
         height: 185px;
         width: 185px;
+    }
+    .bg-pokeball-2 {
+        height: 160px;
+        width: 160px;
     }
 }
 

@@ -46,13 +46,13 @@ function generateBigPokemonCardContainer(index) {
                     <h2 class="c-white ft-size-h2">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
                     <p class="c-white ft-size-p">#${pokemon.id}</p>
                 </div>
-                <div class="d-flex-sb-c p-relative">
-                    <img id="arrowLeft" class="arrow" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
-                    <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}">
-                    <img id="arrowRight" class="arrow" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
+                <div class="d-flex-sb-c p-relative" id="arrowDiv">
+                    <img id="arrowLeft${index}" class="arrow" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
+                    <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default || pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
+                    <img id="arrowRight${index}" class="arrow" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
                 </div>
             </header>
-            <div class="pokemon-information d-flex-c-c gap-16">
+            <div class="pokemon-information d-flex-c-c">
                 <div class="d-flex-c-c gap-16">
                     <img class="type-image" src="${type1}" alt="${mainType}"></img>
                     ${type2 ? /*html */`<img class="z-index type-image" src="${type2}" alt="${pokemon.types[1].type.name}"></img>` : ''}
@@ -87,7 +87,7 @@ function generateBigPokemonCardContainer(index) {
                                 <p>Height</p>
                             </div>
                         </div>
-                        <p id="pokemon-info">${pokemon.germanDescription || 'Keine Beschreibung verfügbar.'}</p>
+                        <p id="pokemon-info">${pokemon.germanDescription || pokemon.englishDescription || 'Keine Beschreibung verfügbar.'}</p>
                     </section>
                 </div>
             </div>
@@ -189,38 +189,72 @@ function generateBaseStatsSection(index) {
 }
 
 
-function generateEvolutionsSection(index) {
-    let pokemon = allPokemon[index];
-    let mainType = pokemon.types[0].type.name;
+function generateEvolutionsSection(evolutions) {
+    let mainType = evolutions.base.types[0].type.name;
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
-    
-    if (basePokemon && !firstEvolution && !secondEvolution) {
-        return /*html*/`
-            <section class="evolutions d-flex-c-c d-none" id="evolutions">
-                <div class= "text-center">
-                    <h5>Das Pokemon kann sich nicht weiter entwickeln.</h5>
-                </div>                
-            </section>
-        `;
-    }
-    return /*html*/`
-        <section class="evolutions d-flex-c-c d-none" id="evolutions">
-            <div class= "text-center">
-                <h5>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
-                <img class="image-pokemon-3" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
-            </div>
-            <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>                    
-            <div class= "text-center">
-                <h5>${allPokemon[index + 1].name.charAt(0).toUpperCase() + allPokemon[index + 1].name.slice(1)}</h5>
-                <img class="image-pokemon-3" src="${allPokemon[index + 1].sprites.other.home.front_default}" alt="${allPokemon[index + 1].name}">
-            </div>
-            <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>
-            <div class="text-center">
-                ${allPokemon[index + 2] && allPokemon[index + 2].name ?
-                    /*html*/`<h5>${allPokemon[index + 2].name.charAt(0).toUpperCase() + allPokemon[index + 2].name.slice(1)}</h5>
-                    <img class="image-pokemon-3" src="${allPokemon[index + 2].sprites.other.home.front_default}" alt="${allPokemon[index + 2].name}">`
-                    : ''}
-            </div>
+    let baseHTML = `
+        <div class="text-center">
+            <h5>${evolutions.base.name.charAt(0).toUpperCase() + evolutions.base.name.slice(1)}</h5>
+            <img class="image-pokemon-3" src="${evolutions.base.sprites.other.home.front_default}" alt="${evolutions.base.name}">
+        </div>`;
+    let firstHTML = evolutions.first ? `
+        <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}">
+            <path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/>
+        </svg>
+        <div class="text-center">
+            <h5>${evolutions.first.name.charAt(0).toUpperCase() + evolutions.first.name.slice(1)}</h5>
+            <img class="image-pokemon-3" src="${evolutions.first.sprites.other.home.front_default}" alt="${evolutions.first.name}">
+        </div>` : '';
+    let secondHTML = evolutions.second ? `
+        <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}">
+            <path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/>
+        </svg>
+        <div class="text-center">
+            <h5>${evolutions.second.name.charAt(0).toUpperCase() + evolutions.second.name.slice(1)}</h5>
+            <img class="image-pokemon-3" src="${evolutions.second.sprites.other.home.front_default}" alt="${evolutions.second.name}">
+        </div>` : '';
+    document.getElementById('evolutions').innerHTML = /*html*/`
+        <section class="evolutions d-flex-c-c" id="evolutions">
+            ${baseHTML}
+            ${firstHTML}
+            ${secondHTML}
         </section>
     `;
 }
+
+
+// function generateEvolutionsSection(evolutions) {
+//     let mainType = pokemon.types[0].type.name;
+//     let backgroundColor = typeColors[mainType] || '#f5f5f5';
+    
+//     if (baseEvolutionId && !firstEvolutionId && !secondEvolutionId) {
+//         return /*html*/`
+//             <section class="evolutions d-flex-c-c d-none" id="evolutions">
+//                 <div class= "text-center">
+//                     <h5>Das Pokemon kann sich nicht weiter entwickeln.</h5>
+//                 </div>                
+//             </section>
+//         `;
+//     }
+    
+//     return /*html*/`
+//         <section class="evolutions d-flex-c-c d-none" id="evolutions">
+//             <div class= "text-center">
+//                 <h5>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
+//                 <img class="image-pokemon-3" src="${baseEvolutionSprite}" alt="${pokemon.name}">
+//             </div>
+//             <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>                    
+//             <div class= "text-center">
+//                 <h5>${allPokemon[+firstEvolutionId].name.charAt(0).toUpperCase() + allPokemon[+firstEvolutionId].name.slice(1)}</h5>
+//                 <img class="image-pokemon-3" src="${firstEvolutionSprite}" alt="${allPokemon[+firstEvolutionId].name}">
+//             </div>
+//             <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>
+//             <div class="text-center">
+//                 ${allPokemon[+secondEvolutionId] && allPokemon[+secondEvolutionId].name ?
+//                     /*html*/`<h5>${allPokemon[+secondEvolutionId].name.charAt(0).toUpperCase() + allPokemon[+secondEvolutionId].name.slice(1)}</h5>
+//                     <img class="image-pokemon-3" src="${secondEvolutionSprite}" alt="${allPokemon[+secondEvolutionId].name}">`
+//                     : ''}
+//             </div>
+//         </section>
+//     `;
+// }
