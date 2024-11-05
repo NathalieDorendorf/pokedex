@@ -311,6 +311,17 @@ input {
     filter: drop-shadow(0px 0px 2px var(--dark));
 }
 
+.image-pokemon-3:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 1s;
+}
+
+.arrow:hover, .arrow-back:hover {
+    cursor: pointer;
+}
+
+
 @media (max-width:480px) {
     .headline {
         display: none;

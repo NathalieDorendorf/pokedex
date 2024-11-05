@@ -195,7 +195,7 @@ function generateEvolutionsSection(evolutions) {
     let baseHTML = `
         <div class="text-center">
             <h5>${evolutions.base.name.charAt(0).toUpperCase() + evolutions.base.name.slice(1)}</h5>
-            <img class="image-pokemon-3" src="${evolutions.base.sprites.other.home.front_default}" alt="${evolutions.base.name}">
+            <img class="image-pokemon-3" onclick="openOverlay(${evolutions.base.id - 1})" src="${evolutions.base.sprites.other.home.front_default}" alt="${evolutions.base.name}">
         </div>`;
     let firstHTML = evolutions.first ? `
         <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}">
@@ -203,7 +203,7 @@ function generateEvolutionsSection(evolutions) {
         </svg>
         <div class="text-center">
             <h5>${evolutions.first.name.charAt(0).toUpperCase() + evolutions.first.name.slice(1)}</h5>
-            <img class="image-pokemon-3" src="${evolutions.first.sprites.other.home.front_default}" alt="${evolutions.first.name}">
+            <img class="image-pokemon-3" onclick="openOverlay(${evolutions.first.id - 1})" src="${evolutions.first.sprites.other.home.front_default}" alt="${evolutions.first.name}">
         </div>` : '';
     let secondHTML = evolutions.second ? `
         <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}">
@@ -211,7 +211,7 @@ function generateEvolutionsSection(evolutions) {
         </svg>
         <div class="text-center">
             <h5>${evolutions.second.name.charAt(0).toUpperCase() + evolutions.second.name.slice(1)}</h5>
-            <img class="image-pokemon-3" src="${evolutions.second.sprites.other.home.front_default}" alt="${evolutions.second.name}">
+            <img class="image-pokemon-3" onclick="openOverlay(${evolutions.second.id - 1})" src="${evolutions.second.sprites.other.home.front_default}" alt="${evolutions.second.name}">
         </div>` : '';
     document.getElementById('pokemonInfoSection').innerHTML = /*html*/`
         <section class="evolutions d-flex-c-c" id="evolutions">
