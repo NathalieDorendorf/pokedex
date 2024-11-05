@@ -229,10 +229,12 @@ input {
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
+    min-height: 126px;
 }
 
 .evolutions {
     gap: 24px;
+    min-height: 126px;
 }
 
 #pokemonInfoSection {
@@ -282,6 +284,7 @@ input {
     background: var(--light);
     height: 100%;
     width: 4px;
+    min-height: 37px;
 }
 
 .stats-evolutions-container {
@@ -299,6 +302,7 @@ input {
     font-size: 14px;
     width: 100%;
     max-width: 500px;
+    min-height: 126px;
 }
 
 .image-pokemon-3 {
@@ -443,6 +447,10 @@ input {
     }
     .headline > p {
         font-size: 66px;
+    }
+    .bg-pokeball-2 {
+        height: 180px;
+        width: 180px;
     }
 } 
 

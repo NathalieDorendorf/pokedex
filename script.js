@@ -82,8 +82,6 @@ async function fetchSinglePokemonData(pokemonUrl) {
         let pokemonDetails = await response.json();
         let speciesResponse = await fetch(pokemonDetails.species.url);
         let speciesDetails = await speciesResponse.json();
-        let germanDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'de').flavor_text;
-        pokemonDetails.germanDescription = germanDescription ? germanDescription : 'Keine deutsche Beschreibung verfügbar';
         let englishDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;
         pokemonDetails.englishDescription = englishDescription ? englishDescription : 'No english description available';
         return pokemonDetails;

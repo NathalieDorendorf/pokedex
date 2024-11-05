@@ -87,7 +87,7 @@ function generateBigPokemonCardContainer(index) {
                                 <p>Height</p>
                             </div>
                         </div>
-                        <p id="pokemon-info">${pokemon.germanDescription || pokemon.englishDescription || 'Keine Beschreibung verfügbar.'}</p>
+                        <p id="pokemon-info">${pokemon.englishDescription || 'No description available.'}</p>
                     </section>
                 </div>
             </div>
@@ -117,7 +117,7 @@ function generateAboutSection(index) {
                     <p>Height</p>
                 </div>
             </div>
-            <p id="pokemon-info">${pokemon.germanDescription || 'Keine Beschreibung verfügbar.'}</p>
+            <p id="pokemon-info">${pokemon.englishDescription || 'No description available.'}</p>
         </section>
     `;
 }
@@ -213,7 +213,7 @@ function generateEvolutionsSection(evolutions) {
             <h5>${evolutions.second.name.charAt(0).toUpperCase() + evolutions.second.name.slice(1)}</h5>
             <img class="image-pokemon-3" src="${evolutions.second.sprites.other.home.front_default}" alt="${evolutions.second.name}">
         </div>` : '';
-    document.getElementById('evolutions').innerHTML = /*html*/`
+    document.getElementById('pokemonInfoSection').innerHTML = /*html*/`
         <section class="evolutions d-flex-c-c" id="evolutions">
             ${baseHTML}
             ${firstHTML}
