@@ -61,92 +61,6 @@ async function init() {
 }
 
 
-async function fetchAllPokemonData() {
-    try {
-        let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
-        let responseAsJson = await response.json();
-        let allPokemonData = responseAsJson.results;
-        let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
-        let allPokemonDetails = await Promise.all(promises);
-        allPokemon = [...allPokemon, ...allPokemonDetails];
-        renderLittlePokemonCard(0, displayedPokemonCount);
-    } catch (error) {
-        console.error('Pokemon konnten nicht geladen werden', error);
-    }
-}
-
-
-async function fetchSinglePokemonData(pokemonUrl) {
-    try {
-        let response = await fetch(pokemonUrl);
-        let pokemonDetails = await response.json();
-        let speciesResponse = await fetch(pokemonDetails.species.url);
-        let speciesDetails = await speciesResponse.json();
-        let englishDescription = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;
-        pokemonDetails.englishDescription = englishDescription ? englishDescription : 'No english description available';
-        return pokemonDetails;
-    } catch (error) {
-        console.error('Einzeldaten konnten nicht geladen werden', error);
-    }
-}
-
-
-async function fetchPokemonName() {
-    try {
-        let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
-        let responseAsJson = await response.json();
-        let allNames = responseAsJson.results;
-        return allPokemonNames.push(...allNames);
-    } catch (error) {
-        console.error('Namen konnten nicht geladen werden', error);
-    }
-}
-
-
-async function fetchCurrentSinglePokemonData(index) {
-    let singlePokemon = currentPokemon[index];
-    try {
-        let response = await fetch(singlePokemon.url);
-        let currentPokemonDetails = await response.json();
-        return currentPokemon.push(currentPokemonDetails);
-    } catch (error) {
-        console.error('Einzelpokemon konnten nicht geladen werden', error);
-    }
-}
-
-
-async function fetchEvolutionChain(pokemonId) {
-    try {
-        let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId + 1}/`);
-        let responseAsJson = await response.json();
-        let evolutionResponse = await fetch(responseAsJson.evolution_chain.url);
-        let evolutionData = await evolutionResponse.json();        
-        const evolutions = {};
-        const baseEvolutionParts = evolutionData.chain.species.url.split('/');
-        const baseEvolutionId = baseEvolutionParts[baseEvolutionParts.length - 2];
-        const baseEvolutionSprite = allPokemon[+baseEvolutionId - 1].sprites.other.home.front_default;
-        evolutions.base = allPokemon[+baseEvolutionId - 1];
-        const firstEvolution = evolutionData.chain.evolves_to[0];
-        if (firstEvolution) {
-            const firstEvolutionParts = firstEvolution.species.url.split('/');
-            const firstEvolutionId = firstEvolutionParts[firstEvolutionParts.length - 2];
-            const firstEvolutionSprite = allPokemon[+firstEvolutionId - 1].sprites.other.home.front_default;
-            evolutions.first = allPokemon[+firstEvolutionId - 1];
-            const secondEvolution = firstEvolution.evolves_to[0];
-            if (secondEvolution) {
-                const secondEvolutionParts = secondEvolution.species.url.split('/');
-                const secondEvolutionId = secondEvolutionParts[secondEvolutionParts.length - 2];
-                const secondEvolutionSprite = allPokemon[+secondEvolutionId - 1].sprites.other.home.front_default;
-                evolutions.second = allPokemon[+secondEvolutionId - 1];
-            }
-        }        
-        generateEvolutionsSection(evolutions);
-    } catch (error) {
-        console.error('Evolution Chain konnte nicht geladen werden', error);
-    }
-}
-
-
 function showLoadingSpinner() {
     let content = document.getElementById('content');
     content.innerHTML = '';
@@ -184,7 +98,7 @@ async function searchPokemon() {
     let matchedPokemon = allPokemonNames.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     currentPokemon = [];
     if (search === '') {
-        renderLittlePokemonCard();
+        renderLittlePokemonCard(0, displayedPokemonCount);
         return;
     } else if (matchedPokemon.length === 0) {
         document.getElementById('content').innerHTML = '<h2 class="d-flex-c-c section-pad text-center">Keine Pokemon gefunden</h2>';
@@ -271,8 +185,11 @@ function filterKantoPokemon(pokemonList) {
     return pokemonList.filter(pokemon => pokemon.id >= 1 && pokemon.id <= 151);
 }
 
+
 function renderKantoPokemon() {
     const kantoPokemon = filterKantoPokemon(allPokemon);
+    console.log('Kanto Pokemon: ', kantoPokemon);
+    currentPokemon = kantoPokemon;
     renderFilteredLittlePokemonCard(kantoPokemon);
 }
 
@@ -281,10 +198,90 @@ function filterJohtoPokemon(pokemonList) {
     return pokemonList.filter(pokemon => pokemon.id >= 152 && pokemon.id <= 251);    
 }
 
+
 function renderJohtoPokemon() {
     const johtoPokemon = filterJohtoPokemon(allPokemon);
     console.log('Johto Pokemon: ', johtoPokemon);
-    renderLittlePokemonCard(johtoPokemon);
+    currentPokemon = johtoPokemon;
+    renderFilteredLittlePokemonCard(johtoPokemon);
+}
+
+
+function filterHoennPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 252 && pokemon.id <= 386);
+}
+
+
+function renderHoennPokemon() {
+    const hoennPokemon = filterHoennPokemon(allPokemon);
+    console.log('Hoenn Pokemon: ', hoennPokemon);
+    currentPokemon = hoennPokemon;
+    renderFilteredLittlePokemonCard(hoennPokemon);
+}
+
+
+function filterSinnohPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 387 && pokemon.id <= 493);
+}
+
+
+function renderSinnohPokemon() {
+    const sinnohPokemon = filterSinnohPokemon(allPokemon);
+    console.log('Sinnoh Pokemon: ', sinnohPokemon);
+    currentPokemon = sinnohPokemon;
+    renderFilteredLittlePokemonCard(sinnohPokemon);
+}
+
+
+function filterUnovaPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 494 && pokemon.id <= 649);
+}
+
+
+function renderUnovaPokemon() {
+    const unovaPokemon = filterUnovaPokemon(allPokemon);
+    console.log('Unova Pokemon: ', unovaPokemon);
+    currentPokemon = unovaPokemon;
+    renderFilteredLittlePokemonCard(unovaPokemon);
+}
+
+
+function filterKalosPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 650 && pokemon.id <= 721);
+}
+
+
+function renderKalosPokemon() {
+    const kalosPokemon = filterKalosPokemon(allPokemon);
+    console.log('Kalos Pokemon: ', kalosPokemon);
+    currentPokemon = kalosPokemon;
+    renderFilteredLittlePokemonCard(kalosPokemon);
+}
+
+
+function filterAlolaPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 800 && pokemon.id <= 898);
+}
+
+
+function renderAlolaPokemon() {
+    const alolaPokemon = filterAlolaPokemon(allPokemon);
+    console.log('Alola Pokemon: ', alolaPokemon);
+    currentPokemon = alolaPokemon;
+    renderFilteredLittlePokemonCard(alolaPokemon);
+}
+
+
+function filterGalarPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 900 && pokemon.id <= 969);
+}
+
+
+function renderGalarPokemon() {
+    const galarPokemon = filterGalarPokemon(allPokemon);
+    console.log('Galar Pokemon: ', galarPokemon);
+    currentPokemon = galarPokemon;
+    renderFilteredLittlePokemonCard(galarPokemon);
 }
 
 
@@ -292,7 +289,51 @@ function filterPaldeaPokemon(pokemonList) {
     return pokemonList.filter(pokemon => pokemon.id >= 906 && pokemon.id <= 1010);
 }
 
+
 function renderPaldeaPokemon() {
     const paldeaPokemon = filterPaldeaPokemon(allPokemon);
+    console.log('Paldea Pokemon: ', paldeaPokemon);
+    currentPokemon = paldeaPokemon;
     renderFilteredLittlePokemonCard(paldeaPokemon);
+}
+
+
+function filterAllPokemon(pokemonList) {
+    return pokemonList;
+}
+
+
+function renderAllPokemon() {
+    currentPokemon = allPokemon;
+    renderFilteredLittlePokemonCard(allPokemon);
+}
+
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// function showBackToTopButton() {
+//     if (window.scrollY > 20) {
+//         document.getElementById('back-to-top').classList.remove('d-none');
+//     }
+// }
+
+
+window.onscroll = function () {
+    scrollFunction() 
+};
+
+
+function scrollFunction() {
+    let backToTopButton = document.getElementById('back-to-top');
+    if (window.scrollY > 20) {
+        backToTopButton.classList.remove('d-none');
+    } else {
+        backToTopButton.classList.add('d-none');
+    }
 }

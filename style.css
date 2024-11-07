@@ -96,6 +96,17 @@ button:hover {
     cursor: pointer;
 }
 
+.pokemon-region {
+    display: flex;
+    align-items: center;
+    padding: 8px 32px;
+    overflow-x: auto;
+}
+
+.button-region {
+    min-width: 64px;
+}
+
 input {
     height: 36px;
     width: 200px;
@@ -319,6 +330,27 @@ input {
 
 .arrow:hover, .arrow-back:hover {
     cursor: pointer;
+}
+
+.button-up {
+    max-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background-color: #dc0a2d;
+    border: none;
+    box-shadow: none;
+    color: transparent;
+}
+
+.button-up:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 1s;
+    background-color: #dc0a2d;
 }
 
 

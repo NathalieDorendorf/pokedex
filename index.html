@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/standard.css">
     <link rel="stylesheet" href="./css/loading-spinner.css">
     <link rel="stylesheet" href="./css/custom-scrollbar.css">
+    <script src="./js/fetchData.js"></script>
     <script src="./js/templates.js"></script>
     <script src="./script.js"></script>
 </head>
@@ -25,11 +26,17 @@
                 </div>
                 <input type="search" placeholder="Search" id="search" oninput="searchPokemon()">
             </div>
-            <div class="d-flex-c-c gap-16">
-                <button id="all" onclick="renderLittlePokemonCard(startIndex, count)">All</button>
-                <button id="kanto" onclick="renderKantoPokemon()">Kanto</button>
-                <button id="johto" onclick="renderJohtoPokemon()">Johto</button>
-                <button id="paldea" onclick="renderPaldeaPokemon()">Paldea</button>
+            <div class="pokemon-region gap-16">
+                <button class="button-region" id="all" onclick="renderLittlePokemonCard(0, displayedPokemonCount)">All</button>
+                <button class="button-region" id="kanto" onclick="renderKantoPokemon()">Kanto</button>
+                <button class="button-region" id="johto" onclick="renderJohtoPokemon()">Johto</button>
+                <button class="button-region" id="hoenn" onclick="renderHoennPokemon()">Hoenn</button>
+                <button class="button-region" id="sinnoh" onclick="renderSinnohPokemon()">Sinnoh</button>
+                <button class="button-region" id="unova" onclick="renderUnovaPokemon()">Unova</button>
+                <button class="button-region" id="kalos" onclick="renderKalosPokemon()">Kalos</button>
+                <button class="button-region" id="alola" onclick="renderAlolaPokemon()">Alola</button>
+                <button class="button-region" id="galar" onclick="renderGalarPokemon()">Galar</button>
+                <button class="button-region" id="paldea" onclick="renderPaldeaPokemon()">Paldea</button>
             </div>
         </header>
         <main id="content" class="">
@@ -40,6 +47,7 @@
         </div>
         <section class="d-flex-c-c section-pad">
             <button id="button" onclick="loadMorePokemon()">more Pokemon</button>
+            <button class="button-up d-none" id="back-to-top" onclick="scrollToTop()"><img src="./assets/icons/arrow_circle_up_light.svg" alt="up"></button>
         </section>
         <footer class="section-pad d-flex-c-c">
             <p>Copyright by Nathalie Dorendorf 2024</p>
