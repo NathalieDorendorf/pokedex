@@ -115,27 +115,12 @@ async function fetchCurrentSinglePokemonData(index) {
 }
 
 
-async function fetchPokemonType() {
-    try {
-        let response = await fetch(TYPE_URL);
-        let responseAsJson = await response.json();
-        let allTypes = responseAsJson.results;
-        console.log('Pokemon Types: ', allTypes);
-        return allTypes;
-    } catch (error) {
-        console.error('Typen konnten nicht geladen werden', error);
-    }
-}
-
-
 async function fetchEvolutionChain(pokemonId) {
     try {
-        let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId}/`);
+        let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId + 1}/`);
         let responseAsJson = await response.json();
         let evolutionResponse = await fetch(responseAsJson.evolution_chain.url);
-        let evolutionData = await evolutionResponse.json();
-        console.log('Evolution Chain Data: ', evolutionData);
-        
+        let evolutionData = await evolutionResponse.json();        
         const evolutions = {};
         const baseEvolutionParts = evolutionData.chain.species.url.split('/');
         const baseEvolutionId = baseEvolutionParts[baseEvolutionParts.length - 2];
@@ -154,9 +139,7 @@ async function fetchEvolutionChain(pokemonId) {
                 const secondEvolutionSprite = allPokemon[+secondEvolutionId - 1].sprites.other.home.front_default;
                 evolutions.second = allPokemon[+secondEvolutionId - 1];
             }
-        }
-        console.log('Evolution Chain: ', evolutions);
-        
+        }        
         generateEvolutionsSection(evolutions);
     } catch (error) {
         console.error('Evolution Chain konnte nicht geladen werden', error);
@@ -215,8 +198,8 @@ async function searchPokemon() {
 
 
 async function loadMorePokemon() {
-    offset += limit;
-    await fetchAllPokemonData(offset, limit);
+    displayedPokemonCount += 25;
+    renderLittlePokemonCard(offset, displayedPokemonCount);
 }
 
 
@@ -234,6 +217,7 @@ async function openOverlay(index) {
         console.error('Schrei konnte nicht abgespielt werden');
     };
     hideFirstArrowOnCard(index);
+    showSection(index, 'about');
 }
 
 
@@ -278,7 +262,37 @@ async function showSection(index, section) {
     } else if (section === 'baseStats') {
         document.getElementById('pokemonInfoSection').innerHTML = generateBaseStatsSection(index);
     } else if (section === 'evolutions') {
-        document.getElementById('pokemonInfoSection').innerHTML = generateEvolutionsSection(index);
+        document.getElementById('pokemonInfoSection').innerHTML = fetchEvolutionChain(index);
     }
 }
 
+
+function filterKantoPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 1 && pokemon.id <= 151);
+}
+
+function renderKantoPokemon() {
+    const kantoPokemon = filterKantoPokemon(allPokemon);
+    renderFilteredLittlePokemonCard(kantoPokemon);
+}
+
+
+function filterJohtoPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 152 && pokemon.id <= 251);    
+}
+
+function renderJohtoPokemon() {
+    const johtoPokemon = filterJohtoPokemon(allPokemon);
+    console.log('Johto Pokemon: ', johtoPokemon);
+    renderLittlePokemonCard(johtoPokemon);
+}
+
+
+function filterPaldeaPokemon(pokemonList) {
+    return pokemonList.filter(pokemon => pokemon.id >= 906 && pokemon.id <= 1010);
+}
+
+function renderPaldeaPokemon() {
+    const paldeaPokemon = filterPaldeaPokemon(allPokemon);
+    renderFilteredLittlePokemonCard(paldeaPokemon);
+}

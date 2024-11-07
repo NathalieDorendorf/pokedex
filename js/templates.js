@@ -69,26 +69,6 @@ function generateBigPokemonCardContainer(index) {
                     </a>
                 </div>
                 <div id="pokemonInfoSection">
-                    <section class="about" id="about">
-                        <div class="d-flex-c-c gap-16">
-                            <div>
-                                <div class="d-flex-c-c">
-                                    <img id="weight" class="icon" src="./assets/icons/weight.svg" alt="weight">
-                                    <p>${pokemon.weight / 10} kg</p>
-                                </div>
-                                <p>Weight</p>
-                            </div>
-                            <div class="line"></div>
-                            <div>
-                                <div class="d-flex-c-c">
-                                    <img id="height" class="icon" src="./assets/icons/height.svg" alt="height">
-                                    <p>${pokemon.height / 10} m</p>
-                                </div>
-                                <p>Height</p>
-                            </div>
-                        </div>
-                        <p id="pokemon-info">${pokemon.englishDescription || 'No description available.'}</p>
-                    </section>
                 </div>
             </div>
         </div>
@@ -222,39 +202,3 @@ function generateEvolutionsSection(evolutions) {
     `;
 }
 
-
-// function generateEvolutionsSection(evolutions) {
-//     let mainType = pokemon.types[0].type.name;
-//     let backgroundColor = typeColors[mainType] || '#f5f5f5';
-    
-//     if (baseEvolutionId && !firstEvolutionId && !secondEvolutionId) {
-//         return /*html*/`
-//             <section class="evolutions d-flex-c-c d-none" id="evolutions">
-//                 <div class= "text-center">
-//                     <h5>Das Pokemon kann sich nicht weiter entwickeln.</h5>
-//                 </div>                
-//             </section>
-//         `;
-//     }
-    
-//     return /*html*/`
-//         <section class="evolutions d-flex-c-c d-none" id="evolutions">
-//             <div class= "text-center">
-//                 <h5>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
-//                 <img class="image-pokemon-3" src="${baseEvolutionSprite}" alt="${pokemon.name}">
-//             </div>
-//             <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>                    
-//             <div class= "text-center">
-//                 <h5>${allPokemon[+firstEvolutionId].name.charAt(0).toUpperCase() + allPokemon[+firstEvolutionId].name.slice(1)}</h5>
-//                 <img class="image-pokemon-3" src="${firstEvolutionSprite}" alt="${allPokemon[+firstEvolutionId].name}">
-//             </div>
-//             <svg class="icon-evolution" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="${backgroundColor}"><path d="m80-160 240-320L80-800h520q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H80Zm160-80h360l180-240-180-240H240l180 240-180 240Zm270-240Z"/></svg>
-//             <div class="text-center">
-//                 ${allPokemon[+secondEvolutionId] && allPokemon[+secondEvolutionId].name ?
-//                     /*html*/`<h5>${allPokemon[+secondEvolutionId].name.charAt(0).toUpperCase() + allPokemon[+secondEvolutionId].name.slice(1)}</h5>
-//                     <img class="image-pokemon-3" src="${secondEvolutionSprite}" alt="${allPokemon[+secondEvolutionId].name}">`
-//                     : ''}
-//             </div>
-//         </section>
-//     `;
-// }
