@@ -2,13 +2,14 @@ const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 const TYPE_URL = 'https://pokeapi.co/api/v2/type';
 const SINGLE_POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon-species';
 
+
 let allPokemonNames = [];
 let allPokemon = [];
 let currentPokemon = [];
 let displayedPokemonCount = 25;
 let offset = 0;
 let limit = 25;
-let type = 1;
+
 
 const typeColors = {
     grass: "#74cb48",
@@ -54,6 +55,19 @@ const typeImages = {
 };
 
 
+const regions = {
+    Kanto: { min: 1, max: 151 },
+    Johto: { min: 152, max: 251 },
+    Hoenn: { min: 252, max: 386 },
+    Sinnoh: { min: 387, max: 493 },
+    Unova: { min: 494, max: 649 },
+    Kalos: { min: 650, max: 721 },
+    Alola: { min: 800, max: 898 },
+    Galar: { min: 900, max: 969 },
+    Paldea: { min: 906, max: 1010 }
+};
+
+
 async function init() {
     showLoadingSpinner();
     await fetchPokemonName();
@@ -93,8 +107,7 @@ function renderFilteredLittlePokemonCard() {
 
 
 async function searchPokemon() {
-    let search = document.getElementById('search').value;
-    search = search.trim().toLowerCase();
+    let search = document.getElementById('search').value.trim().toLowerCase();
     let matchedPokemon = allPokemonNames.filter(pokemon => pokemon.name.toLowerCase().includes(search));
     currentPokemon = [];
     if (search === '') {
@@ -125,13 +138,19 @@ async function openOverlay(index) {
     overlay.innerHTML = generateBigPokemonCardContainer(index);
     let pokemon = allPokemon[index];
     await fetchEvolutionChain(pokemon.id);
-    let AUDIO_CRIES = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemon.id}.ogg`);
-    AUDIO_CRIES.play();
-    AUDIO_CRIES.onerror = function() {
-        console.error('Schrei konnte nicht abgespielt werden');
-    };
+    playAudio(pokemon.id);
     hideFirstArrowOnCard(index);
     showSection(index, 'about');
+}
+
+
+function playAudio(pokemonId) {
+    let audio = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemonId}.ogg`);
+    audio.volume = 0.2;
+    audio.play();
+    audio.onerror = function () {
+        console.error('Schrei konnte nicht abgespielt werden');
+    };
 }
 
 
@@ -181,131 +200,16 @@ async function showSection(index, section) {
 }
 
 
-function filterKantoPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 1 && pokemon.id <= 151);
+function filterPokemonByRegion(pokemonList, region) {
+    const { min, max } = regions[region];
+    return pokemonList.filter(pokemon => pokemon.id >= min && pokemon.id <= max);
 }
 
 
-function renderKantoPokemon() {
-    const kantoPokemon = filterKantoPokemon(allPokemon);
-    console.log('Kanto Pokemon: ', kantoPokemon);
-    currentPokemon = kantoPokemon;
-    renderFilteredLittlePokemonCard(kantoPokemon);
-}
-
-
-function filterJohtoPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 152 && pokemon.id <= 251);    
-}
-
-
-function renderJohtoPokemon() {
-    const johtoPokemon = filterJohtoPokemon(allPokemon);
-    console.log('Johto Pokemon: ', johtoPokemon);
-    currentPokemon = johtoPokemon;
-    renderFilteredLittlePokemonCard(johtoPokemon);
-}
-
-
-function filterHoennPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 252 && pokemon.id <= 386);
-}
-
-
-function renderHoennPokemon() {
-    const hoennPokemon = filterHoennPokemon(allPokemon);
-    console.log('Hoenn Pokemon: ', hoennPokemon);
-    currentPokemon = hoennPokemon;
-    renderFilteredLittlePokemonCard(hoennPokemon);
-}
-
-
-function filterSinnohPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 387 && pokemon.id <= 493);
-}
-
-
-function renderSinnohPokemon() {
-    const sinnohPokemon = filterSinnohPokemon(allPokemon);
-    console.log('Sinnoh Pokemon: ', sinnohPokemon);
-    currentPokemon = sinnohPokemon;
-    renderFilteredLittlePokemonCard(sinnohPokemon);
-}
-
-
-function filterUnovaPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 494 && pokemon.id <= 649);
-}
-
-
-function renderUnovaPokemon() {
-    const unovaPokemon = filterUnovaPokemon(allPokemon);
-    console.log('Unova Pokemon: ', unovaPokemon);
-    currentPokemon = unovaPokemon;
-    renderFilteredLittlePokemonCard(unovaPokemon);
-}
-
-
-function filterKalosPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 650 && pokemon.id <= 721);
-}
-
-
-function renderKalosPokemon() {
-    const kalosPokemon = filterKalosPokemon(allPokemon);
-    console.log('Kalos Pokemon: ', kalosPokemon);
-    currentPokemon = kalosPokemon;
-    renderFilteredLittlePokemonCard(kalosPokemon);
-}
-
-
-function filterAlolaPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 800 && pokemon.id <= 898);
-}
-
-
-function renderAlolaPokemon() {
-    const alolaPokemon = filterAlolaPokemon(allPokemon);
-    console.log('Alola Pokemon: ', alolaPokemon);
-    currentPokemon = alolaPokemon;
-    renderFilteredLittlePokemonCard(alolaPokemon);
-}
-
-
-function filterGalarPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 900 && pokemon.id <= 969);
-}
-
-
-function renderGalarPokemon() {
-    const galarPokemon = filterGalarPokemon(allPokemon);
-    console.log('Galar Pokemon: ', galarPokemon);
-    currentPokemon = galarPokemon;
-    renderFilteredLittlePokemonCard(galarPokemon);
-}
-
-
-function filterPaldeaPokemon(pokemonList) {
-    return pokemonList.filter(pokemon => pokemon.id >= 906 && pokemon.id <= 1010);
-}
-
-
-function renderPaldeaPokemon() {
-    const paldeaPokemon = filterPaldeaPokemon(allPokemon);
-    console.log('Paldea Pokemon: ', paldeaPokemon);
-    currentPokemon = paldeaPokemon;
-    renderFilteredLittlePokemonCard(paldeaPokemon);
-}
-
-
-function filterAllPokemon(pokemonList) {
-    return pokemonList;
-}
-
-
-function renderAllPokemon() {
-    currentPokemon = allPokemon;
-    renderFilteredLittlePokemonCard(allPokemon);
+function renderPokemonByRegion(region) {
+    const filteredPokemon = filterPokemonByRegion(allPokemon, region);
+    currentPokemon = filteredPokemon;
+    renderFilteredLittlePokemonCard(filteredPokemon);
 }
 
 
@@ -315,13 +219,6 @@ function scrollToTop() {
         behavior: "smooth"
     });
 }
-
-
-// function showBackToTopButton() {
-//     if (window.scrollY > 20) {
-//         document.getElementById('back-to-top').classList.remove('d-none');
-//     }
-// }
 
 
 window.onscroll = function () {

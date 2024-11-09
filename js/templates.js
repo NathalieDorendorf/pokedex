@@ -12,6 +12,7 @@ function generateLittlePokemonCardContainer(pokemon) {
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
     let type1 = typeImages[mainType];
     let type2 = pokemon.types[1] ? typeImages[pokemon.types[1].type.name] : null;
+    let sprite = pokemon.sprites.other.home.front_default || pokemon.sprites.front_default || './assets/img/no-pokemon.png';
     return /*html*/`
         <div onclick="openOverlay(${pokemon.id - 1})" id="littlePokemonCard${pokemon.id}" class="little-pokemon-card" style="background-color: ${backgroundColor};">
             <img class="bg-pokeball" src="./assets/icons/pokedex.svg" alt="">
@@ -24,7 +25,7 @@ function generateLittlePokemonCardContainer(pokemon) {
                     <img class="z-index type-image" src="${type1}" alt="${mainType}"></img>
                     ${type2 ? /*html */`<img class="z-index type-image" src="${type2}" alt="${pokemon.types[1].type.name}"></img>` : ''}
                 </div>
-                <img class="image-pokemon z-index" src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">  
+                <img class="image-pokemon z-index" src="${sprite}" alt="${pokemon.name}">  
             </div>
         </div>
     `;
@@ -33,22 +34,23 @@ function generateLittlePokemonCardContainer(pokemon) {
 
 function generateBigPokemonCardContainer(index) {
     let pokemon = allPokemon[index];
-    let mainType = pokemon.types[0].type.name;
+    let mainType = pokemon.types && pokemon.types[0] ? pokemon.types[0].type.name : 'normal';
     let backgroundColor = typeColors[mainType] || '#f5f5f5';
-    let type1 = typeImages[mainType];
-    let type2 = pokemon.types[1] ? typeImages[pokemon.types[1].type.name] : null;
+    let type1 = typeImages[mainType] || './assets/img/default-type.png';
+    let type2 = pokemon.types && pokemon.types[1] ? typeImages[pokemon.types[1].type.name] : null;
+    let sprite = pokemon.sprites?.other?.dream_world?.front_default || pokemon.sprites?.other?.home?.front_default || pokemon.sprites?.front_default || './assets/img/no-pokemon.png';
     return /*html*/`
         <div class="big-pokemon-card" style="background-color: ${backgroundColor};">
             <header class="header-overlay">
                 <img class="bg-pokeball-2" src="./assets/icons/pokedex.svg" alt="">
                 <div class="d-flex-sb-c padding-16">
                     <img id="arrowBack" class="arrow-back" onclick="closeOverlay(${index})" src="./assets/icons/back-to-home.svg" alt="back">
-                    <h2 class="c-white ft-size-h2">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-                    <p class="c-white ft-size-p">#${pokemon.id}</p>
+                    <h2 class="c-white ft-size-h2">${pokemon.name ? pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1) : 'Unknown'}</h2>
+                    <p class="c-white ft-size-p">#${pokemon.id || '???'}</p>
                 </div>
                 <div class="d-flex-sb-c p-relative" id="arrowDiv">
                     <img id="arrowLeft${index}" class="arrow" onclick="previousPokemon(${index})" src="./assets/icons/chevron_left.svg" alt="previous pokemon">
-                    <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${pokemon.sprites.other.dream_world.front_default || pokemon.sprites.other.home.front_default}" alt="${pokemon.name}">
+                    <img id="pokemon${index}" class="image-pokemon-2 p-absolute" src="${sprite}" alt="${pokemon.name || 'Unknown'}">
                     <img id="arrowRight${index}" class="arrow" onclick="nextPokemon(${index})" src="./assets/icons/chevron_right.svg" alt="next pokemon">
                 </div>
             </header>

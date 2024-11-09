@@ -1,18 +1,3 @@
-// async function fetchAllPokemonData() {
-//     try {
-//         let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
-//         let responseAsJson = await response.json();
-//         let allPokemonData = responseAsJson.results;
-//         let promises = allPokemonData.map(pokemon => fetchSinglePokemonData(pokemon.url));
-//         let allPokemonDetails = await Promise.all(promises);
-//         allPokemon = [...allPokemon, ...allPokemonDetails];
-//         renderLittlePokemonCard(0, displayedPokemonCount);
-//     } catch (error) {
-//         console.error('Pokemon konnten nicht geladen werden', error);
-//     }
-// }
-
-
 async function fetchAllPokemonData() {
     try {
         let response = await fetch(`${BASE_URL}?limit=100000&offset=0`);
@@ -74,31 +59,39 @@ async function fetchCurrentSinglePokemonData(index) {
 
 async function fetchEvolutionChain(pokemonId) {
     try {
-        let response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId + 1}/`);
-        let responseAsJson = await response.json();
-        let evolutionResponse = await fetch(responseAsJson.evolution_chain.url);
-        let evolutionData = await evolutionResponse.json();
-        const evolutions = {};
-        const baseEvolutionParts = evolutionData.chain.species.url.split('/');
-        const baseEvolutionId = baseEvolutionParts[baseEvolutionParts.length - 2];
-        const baseEvolutionSprite = allPokemon[+baseEvolutionId - 1].sprites.other.home.front_default;
-        evolutions.base = allPokemon[+baseEvolutionId - 1];
-        const firstEvolution = evolutionData.chain.evolves_to[0];
-        if (firstEvolution) {
-            const firstEvolutionParts = firstEvolution.species.url.split('/');
-            const firstEvolutionId = firstEvolutionParts[firstEvolutionParts.length - 2];
-            const firstEvolutionSprite = allPokemon[+firstEvolutionId - 1].sprites.other.home.front_default;
-            evolutions.first = allPokemon[+firstEvolutionId - 1];
-            const secondEvolution = firstEvolution.evolves_to[0];
-            if (secondEvolution) {
-                const secondEvolutionParts = secondEvolution.species.url.split('/');
-                const secondEvolutionId = secondEvolutionParts[secondEvolutionParts.length - 2];
-                const secondEvolutionSprite = allPokemon[+secondEvolutionId - 1].sprites.other.home.front_default;
-                evolutions.second = allPokemon[+secondEvolutionId - 1];
-            }
-        }
+        const evolutionData = await getEvolutionData(pokemonId);
+        const evolutions = extractEvolutions(evolutionData);
         generateEvolutionsSection(evolutions);
     } catch (error) {
         console.error('Evolution Chain konnte nicht geladen werden', error);
     }
+}
+
+
+async function getEvolutionData(pokemonId) {
+    const response = await fetch(`${SINGLE_POKEMON_URL}/${pokemonId + 1}/`);
+    const pokemonData = await response.json();
+    const evolutionResponse = await fetch(pokemonData.evolution_chain.url);
+    return await evolutionResponse.json();
+}
+
+
+function extractEvolutions(evolutionData) {
+    const evolutions = {};
+    evolutions.base = getPokemonByUrl(evolutionData.chain.species.url);
+    const firstEvolution = evolutionData.chain.evolves_to[0];
+    if (firstEvolution) {
+        evolutions.first = getPokemonByUrl(firstEvolution.species.url);
+        const secondEvolution = firstEvolution.evolves_to[0];
+        if (secondEvolution) {
+            evolutions.second = getPokemonByUrl(secondEvolution.species.url);
+        }
+    }
+    return evolutions;
+}
+
+
+function getPokemonByUrl(url) {
+    const id = url.split('/').slice(-2, -1)[0];
+    return allPokemon[+id - 1];
 }

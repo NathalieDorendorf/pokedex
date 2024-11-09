@@ -26,17 +26,17 @@
                 </div>
                 <input type="search" placeholder="Search" id="search" oninput="searchPokemon()">
             </div>
-            <div class="pokemon-region gap-16">
+            <div class="pokemon-region gap-16 side-bar">
                 <button class="button-region" id="all" onclick="renderLittlePokemonCard(0, displayedPokemonCount)">All</button>
-                <button class="button-region" id="kanto" onclick="renderKantoPokemon()">Kanto</button>
-                <button class="button-region" id="johto" onclick="renderJohtoPokemon()">Johto</button>
-                <button class="button-region" id="hoenn" onclick="renderHoennPokemon()">Hoenn</button>
-                <button class="button-region" id="sinnoh" onclick="renderSinnohPokemon()">Sinnoh</button>
-                <button class="button-region" id="unova" onclick="renderUnovaPokemon()">Unova</button>
-                <button class="button-region" id="kalos" onclick="renderKalosPokemon()">Kalos</button>
-                <button class="button-region" id="alola" onclick="renderAlolaPokemon()">Alola</button>
-                <button class="button-region" id="galar" onclick="renderGalarPokemon()">Galar</button>
-                <button class="button-region" id="paldea" onclick="renderPaldeaPokemon()">Paldea</button>
+                <button class="button-region" id="kanto" onclick="renderPokemonByRegion('Kanto')">Kanto</button>
+                <button class="button-region" id="johto" onclick="renderPokemonByRegion('Johto')">Johto</button>
+                <button class="button-region" id="hoenn" onclick="renderPokemonByRegion('Hoenn')">Hoenn</button>
+                <button class="button-region" id="sinnoh" onclick="renderPokemonByRegion('Sinnoh')">Sinnoh</button>
+                <button class="button-region" id="unova" onclick="renderPokemonByRegion('Unova')">Unova</button>
+                <button class="button-region" id="kalos" onclick="renderPokemonByRegion('Kalos')">Kalos</button>
+                <button class="button-region" id="alola" onclick="renderPokemonByRegion('Alola')">Alola</button>
+                <button class="button-region" id="galar" onclick="renderPokemonByRegion('Galar')">Galar</button>
+                <button class="button-region" id="paldea" onclick="renderPokemonByRegion('Paldea')">Paldea</button>
             </div>
         </header>
         <main id="content" class="">
